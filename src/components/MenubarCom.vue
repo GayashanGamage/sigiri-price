@@ -2,13 +2,19 @@
   <div class="c-level-one-container">
     <div class="c-level-two-container">
       <h1 class="site-title">RUKA.PRICE</h1>
-      <button class="logout">Member</button>
+      <button class="logout" @click="memberPage">Member</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import router from "@/router";
+
 name: "MenubarCom";
+
+const memberPage = () => {
+  router.push("/member");
+};
 </script>
 
 <style scoped>
