@@ -12,20 +12,45 @@
           <button @click="memberAction">SinIn</button>
         </div>
         <div class="v-level-four-container action" v-if="memberView">
-          <input type="text" placeholder="Email" class="user_input" />
-          <input type="password" placeholder="Password" class="user_input" />
-          <button class="userAction">LogIn</button>
+          <input
+            type="text"
+            placeholder="Email"
+            class="user_input"
+            v-model="l_email"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            class="user_input"
+            v-model="l_password"
+          />
+          <button class="userAction" @click="login">LogIn</button>
         </div>
         <div class="v-level-four-container action" v-if="!memberView">
-          <input type="text" placeholder="Email" class="user_input" />
-          <input type="text" placeholder="First name" class="user_input" />
-          <input type="password" placeholder="password" class="user_input" />
           <input
+            type="text"
+            placeholder="Email"
+            class="user_input"
+            v-model="email"
+          />
+          <input
+            type="text"
+            placeholder="First name"
+            class="user_input"
+            v-model="first_name"
+          />
+          <input
+            type="password"
+            placeholder="password"
+            class="user_input"
+            v-model="password"
+          />
+          <!-- <input
             type="password"
             placeholder="Confirm password"
             class="user_input"
-          />
-          <button class="userAction">Register</button>
+          /> -->
+          <button class="userAction" @click="register">Register</button>
         </div>
       </div>
     </div>
@@ -37,10 +62,24 @@
 import FooterCom from "@/components/FooterCom.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
 import router from "@/router";
+import axios from "axios";
 import { ref } from "vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 name: "MemberprocessView";
 
+const toast = useToast();
+
 const memberView = ref(false);
+
+// user register details
+const email = ref();
+const first_name = ref();
+const password = ref();
+
+// loging credentials
+const l_email = ref();
+const l_password = ref();
 
 const memberAction = () => {
   memberView.value = !memberView.value;
@@ -48,6 +87,36 @@ const memberAction = () => {
 
 const goBack = () => {
   router.replace("/");
+};
+
+const login = () => {
+  axios
+    .post(`${import.meta.env.VITE_site}/login`, {
+      email: l_email.value,
+      password: l_password.value,
+    })
+    .then(function (response) {
+      toast.success("your login successfuly");
+    })
+    .catch(function (error) {
+      toast.error("something go wrong");
+    });
+};
+const register = () => {
+  axios
+    .post(`${import.meta.env.VITE_site}/create-user`, {
+      email: email.value,
+      first_name: first_name.value,
+      password: password.value,
+    })
+    .then(function (response) {
+      console.log(response);
+      toast.success("you've created profile successuly");
+    })
+    .catch(function (error) {
+      console.log(error);
+      toast.error("this is email already use in this application");
+    });
 };
 </script>
 

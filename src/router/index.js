@@ -1,4 +1,5 @@
 import HomeView from "@/views/HomeView.vue";
+import Member from "@/views/Member.vue";
 import MemberprocessView from "@/views/MemberprocessView.vue";
 import ProductView from "@/views/ProductView.vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -15,6 +16,11 @@ const router = createRouter({
       path: "/member",
       component: MemberprocessView,
       name: "memberprocess",
+    },
+    {
+      path: "/m",
+      component: Member,
+      name: "member",
     },
   ],
 });
