@@ -8,10 +8,10 @@
           <p class="back-text">Go back</p>
         </div>
         <div class="v-level-four-container buttons">
-          <button @click="memberAction">Sinup</button>
-          <button @click="memberAction">SinIn</button>
+          <button @click="memberAction('sup')">Sinup</button>
+          <button @click="memberAction('sin')">SinIn</button>
         </div>
-        <div class="v-level-four-container action" v-if="memberView">
+        <div class="v-level-four-container action" v-if="sin">
           <input
             type="text"
             placeholder="Email"
@@ -26,7 +26,7 @@
           />
           <button class="userAction" @click="login">LogIn</button>
         </div>
-        <div class="v-level-four-container action" v-if="!memberView">
+        <div class="v-level-four-container action" v-if="sup">
           <input
             type="text"
             placeholder="Email"
@@ -70,7 +70,8 @@ name: "MemberprocessView";
 
 const toast = useToast();
 
-const memberView = ref(false);
+const sin = ref(true);
+const sup = ref(false);
 
 // user register details
 const email = ref();
@@ -81,8 +82,14 @@ const password = ref();
 const l_email = ref();
 const l_password = ref();
 
-const memberAction = () => {
-  memberView.value = !memberView.value;
+const memberAction = (val) => {
+  if (val === "sup") {
+    sin.value = false;
+    sup.value = true;
+  } else {
+    sin.value = true;
+    sup.value = false;
+  }
 };
 
 const goBack = () => {
