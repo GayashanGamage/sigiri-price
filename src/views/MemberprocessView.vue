@@ -3,6 +3,10 @@
     <MenubarCom></MenubarCom>
     <div class="v-level-two-container">
       <div class="v-level-three-container">
+        <div class="v-level-four-container back" @click="goBack">
+          <span class="material-symbols-outlined back-icon"> arrow_back </span>
+          <p class="back-text">Go back</p>
+        </div>
         <div class="v-level-four-container buttons">
           <button @click="memberAction">Sinup</button>
           <button @click="memberAction">SinIn</button>
@@ -32,6 +36,7 @@
 <script setup>
 import FooterCom from "@/components/FooterCom.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
+import router from "@/router";
 import { ref } from "vue";
 name: "MemberprocessView";
 
@@ -39,6 +44,10 @@ const memberView = ref(false);
 
 const memberAction = () => {
   memberView.value = !memberView.value;
+};
+
+const goBack = () => {
+  router.replace("/");
 };
 </script>
 
@@ -53,9 +62,9 @@ const memberAction = () => {
 .v-level-three-container {
   width: 27vw;
   height: 50vh;
-  border: 1px solid black;
   border-radius: 6px;
 }
+
 .action {
   display: flex;
   flex-direction: column;
@@ -64,6 +73,9 @@ const memberAction = () => {
   width: 100%;
   gap: 10px;
   height: 85%;
+  border: 1px solid black;
+  border-radius: 0 0 4px 4px;
+  border-top: 0px;
 }
 .buttons {
   /* border: 1px solid black; */
@@ -81,5 +93,17 @@ const memberAction = () => {
 .userAction {
   width: 76%;
   height: 30px;
+}
+.back {
+  /* border: 1px solid black; */
+  margin-bottom: 20px;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.back-text {
+  margin-left: 20px;
 }
 </style>
