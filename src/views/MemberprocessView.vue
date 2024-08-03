@@ -121,6 +121,7 @@ const register = () => {
         "token=" +
         `${response.data["token"]}` +
         "; expires=Thu, 31 Dec 2025 12:00:00 UTC";
+      localStorage.setItem("username", first_name.value);
       router.replace("/m");
     })
     .catch(function (error) {

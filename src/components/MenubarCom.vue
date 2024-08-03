@@ -7,7 +7,9 @@
         v-if="!availablebutton"
         @click="showMenu"
         ref="userProfileIcon"
-      ></div>
+      >
+        <p class="user-icon">{{ user_name.slice(0, 2) }}</p>
+      </div>
       <button class="logout common" @click="memberPage" v-if="availablebutton">
         Member
       </button>
@@ -30,6 +32,7 @@ name: "MenubarCom";
 const availablebutton = ref(true);
 const userMenuTogle = ref(false);
 const userProfileIcon = ref(null);
+const user_name = ref("Unkonwn");
 
 const memberPage = () => {
   router.push("/member");
@@ -40,6 +43,7 @@ onBeforeMount(() => {
     "";
   if (a !== "") {
     availablebutton.value = false;
+    user_name.value = localStorage.getItem("username");
   } else {
     availablebutton.value = true;
   }
@@ -82,6 +86,9 @@ onClickOutside(userProfileIcon, (click) => (userMenuTogle.value = false));
   border: 1px solid black;
   border-radius: 100%;
   margin: 6px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .common {
   float: right;
@@ -93,5 +100,9 @@ onClickOutside(userProfileIcon, (click) => (userMenuTogle.value = false));
   border: 1px solid black;
   width: 300px;
   height: auto;
+}
+.user-icon {
+  font-weight: 800;
+  font-size: 24px;
 }
 </style>
