@@ -2,19 +2,53 @@
   <div class="c-level-one-container">
     <div class="c-level-two-container">
       <h1 class="site-title">RUKA.PRICE</h1>
-      <button class="logout" @click="memberPage">Member</button>
+      <div
+        class="user common"
+        v-if="!availablebutton"
+        @click="showMenu"
+        ref="userProfileIcon"
+      ></div>
+      <button class="logout common" @click="memberPage" v-if="availablebutton">
+        Member
+      </button>
+    </div>
+    <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
+      <p>Settings</p>
+      <p>Track products</p>
+      <p>Logout</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import router from "@/router";
-
+import { onClickOutside } from "@vueuse/core";
+import { onBeforeMount, ref } from "vue";
 name: "MenubarCom";
+
+// menubar button toggle
+const availablebutton = ref(true);
+const userMenuTogle = ref(false);
+const userProfileIcon = ref(null);
 
 const memberPage = () => {
   router.push("/member");
 };
+onBeforeMount(() => {
+  let a =
+    document.cookie.match("(^|;)\\s*" + "token" + "\\s*=\\s*([^;]+)")?.pop() ||
+    "";
+  if (a !== "") {
+    availablebutton.value = false;
+  } else {
+    availablebutton.value = true;
+  }
+});
+
+const showMenu = () => {
+  userMenuTogle.value = !userMenuTogle.value;
+};
+onClickOutside(userProfileIcon, (click) => (userMenuTogle.value = false));
 </script>
 
 <style scoped>
@@ -40,7 +74,24 @@ const memberPage = () => {
   height: 60%;
   font-size: 20px;
   font-weight: 300;
-  float: right;
   margin: 10px 40px;
+}
+.user {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 100%;
+  margin: 6px 40px;
+}
+.common {
+  float: right;
+}
+.user-menu {
+  position: absolute;
+  top: 9vh;
+  right: 1%;
+  border: 1px solid black;
+  width: 300px;
+  height: auto;
 }
 </style>

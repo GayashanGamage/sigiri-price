@@ -1,4 +1,3 @@
-import HomeView from "@/views/HomeView.vue";
 import Member from "@/views/Member.vue";
 import MemberprocessView from "@/views/MemberprocessView.vue";
 import ProductView from "@/views/ProductView.vue";

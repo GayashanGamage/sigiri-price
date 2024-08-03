@@ -117,8 +117,11 @@ const register = () => {
       password: password.value,
     })
     .then(function (response) {
-      console.log(response);
-      toast.success("you've created profile successuly");
+      document.cookie =
+        "token=" +
+        `${response.data["token"]}` +
+        "; expires=Thu, 31 Dec 2025 12:00:00 UTC";
+      router.replace("/m");
     })
     .catch(function (error) {
       console.log(error);
