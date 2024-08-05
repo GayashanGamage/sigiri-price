@@ -15,11 +15,10 @@
       </button>
     </div>
     <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
-      <p>Settings</p>
-      <p>Track products</p>
-      <p @click="logout">Logout</p>
+      <p class="menu-column">Settings</p>
+      <p class="menu-column">Track products</p>
+      <p @click="logout" class="menu-column">Logout</p>
     </div>
-    <button @click="showcookie">show cookies</button>
   </div>
 </template>
 
@@ -118,12 +117,27 @@ const logout = () => {
   position: absolute;
   top: 9vh;
   right: 1%;
-  border: 1px solid black;
   width: 300px;
   height: auto;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px 1px#888888;
 }
 .user-icon {
   font-weight: 800;
   font-size: 24px;
+}
+.menu-column {
+  height: 40px;
+  font-size: 20px;
+  font-weight: 300;
+  margin-left: 30px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.menu-column:hover {
+  font-weight: 600;
+  cursor: pointer;
 }
 </style>

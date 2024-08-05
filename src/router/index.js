@@ -1,6 +1,7 @@
 import Member from "@/views/Member.vue";
 import MemberprocessView from "@/views/MemberprocessView.vue";
 import ProductView from "@/views/ProductView.vue";
+import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -17,11 +18,10 @@ const router = createRouter({
       name: "memberprocess",
     },
     {
-      path: "/m",
+      path: "/profile",
       component: Member,
       name: "member",
     },
   ],
 });
-
 export default router;
