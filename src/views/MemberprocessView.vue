@@ -103,7 +103,13 @@ const login = () => {
       password: l_password.value,
     })
     .then(function (response) {
-      toast.success("your login successfuly");
+      document.cookie =
+        "token=" +
+        `${response.data["token"]}` +
+        "; expires=Thu, 31 Dec 2025 12:00:00 UTC";
+      // #TODO: add first_name to localStorage
+      localStorage.setItem("username", response.data["name"]);
+      router.replace("/m");
     })
     .catch(function (error) {
       toast.error("something go wrong");

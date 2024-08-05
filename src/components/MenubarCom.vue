@@ -1,7 +1,7 @@
 <template>
   <div class="c-level-one-container">
     <div class="c-level-two-container">
-      <h1 class="site-title">RUKA.PRICE</h1>
+      <h1 class="site-title" @click="homePage">RUKA.PRICE</h1>
       <div
         class="user common"
         v-if="!availablebutton"
@@ -17,8 +17,9 @@
     <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
       <p>Settings</p>
       <p>Track products</p>
-      <p>Logout</p>
+      <p @click="logout">Logout</p>
     </div>
+    <button @click="showcookie">show cookies</button>
   </div>
 </template>
 
@@ -49,10 +50,30 @@ onBeforeMount(() => {
   }
 });
 
+// menu toggle functionality
 const showMenu = () => {
   userMenuTogle.value = !userMenuTogle.value;
 };
+
+// if click outside of user menu it will disapear
 onClickOutside(userProfileIcon, (click) => (userMenuTogle.value = false));
+
+// direct to home page
+const homePage = () => {
+  router.push("/");
+};
+
+// logout functionality
+const logout = () => {
+  let allCookie = document.cookie.split("; ");
+  for (let i = 0; i < allCookie.length; i++) {
+    if (allCookie[i].startsWith("token=")) {
+      document.cookie = allCookie[i] + "; max-age=-100";
+    }
+  }
+  localStorage.removeItem("username");
+  router.replace("/");
+};
 </script>
 
 <style scoped>
