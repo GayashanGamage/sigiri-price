@@ -1,3 +1,5 @@
+import ProductCom from "@/components/ProductCom.vue";
+import SettingCom from "@/components/SettingCom.vue";
 import Member from "@/views/Member.vue";
 import MemberprocessView from "@/views/MemberprocessView.vue";
 import ProductView from "@/views/ProductView.vue";
@@ -21,6 +23,19 @@ const router = createRouter({
       path: "/profile",
       component: Member,
       name: "member",
+      redirect: "profile/setting",
+      children: [
+        {
+          path: "setting",
+          component: SettingCom,
+          name: "user-setting",
+        },
+        {
+          path: "product",
+          component: ProductCom,
+          name: "user-product",
+        },
+      ],
     },
   ],
 });

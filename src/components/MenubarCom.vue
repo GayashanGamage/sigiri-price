@@ -15,7 +15,7 @@
       </button>
     </div>
     <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
-      <p class="menu-column">Settings</p>
+      <p class="menu-column" @click="directTo">Settings</p>
       <p class="menu-column">Track products</p>
       <p @click="logout" class="menu-column">Logout</p>
     </div>
@@ -72,6 +72,10 @@ const logout = () => {
   }
   localStorage.removeItem("username");
   router.replace("/");
+};
+
+const directTo = () => {
+  router.push("/profile");
 };
 </script>
 
