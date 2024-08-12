@@ -55,6 +55,7 @@ import { onBeforeMount, ref } from "vue";
 
 const url = ref();
 const widget = ref(false);
+const offer = ref();
 const productData = ref({
   image: "",
   title: "",
@@ -88,6 +89,40 @@ const getProduct = () => {
       console.log(error);
     });
 };
+
+const storeProduct = () => {
+  let allCookie = document.cookie.split("; ");
+  let selectedCookie = ref();
+  for (let i = 0; i < allCookie.length; i++) {
+    if (allCookie[i].startsWith("token=")) {
+      selectedCookie.value = allCookie[i].slice(6);
+    }
+  }
+  axios
+    .post(
+      `${import.meta.env.VITE_site}/store`,
+      {
+        link: url.value,
+        price: parseInt(sessionStorage.getItem("price")),
+        title: sessionStorage.getItem("title"),
+        track_price: parseInt(offer.value),
+        code: sessionStorage.getItem("code"),
+        availability: sessionStorage.getItem("availability"),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${selectedCookie}`,
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 onBeforeMount(() => {
   let a = sessionStorage.getItem("code");
   if (a !== null) {

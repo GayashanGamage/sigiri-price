@@ -23,7 +23,7 @@ const router = createRouter({
       path: "/profile",
       component: Member,
       name: "member",
-      redirect: "profile/setting",
+      // redirect: "profile/setting",
       children: [
         {
           path: "setting",

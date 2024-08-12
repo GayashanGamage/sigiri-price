@@ -15,8 +15,10 @@
       </button>
     </div>
     <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
-      <p class="menu-column" @click="directTo">Settings</p>
-      <p class="menu-column">Track products</p>
+      <p class="menu-column" @click="directTo('/profile/setting')">Settings</p>
+      <p class="menu-column" @click="directTo('/profile/product')">
+        Track products
+      </p>
       <p @click="logout" class="menu-column">Logout</p>
     </div>
   </div>
@@ -74,8 +76,8 @@ const logout = () => {
   router.replace("/");
 };
 
-const directTo = () => {
-  router.push("/profile");
+const directTo = (link) => {
+  router.push(link);
 };
 </script>
 

@@ -109,7 +109,7 @@ const login = () => {
         "; expires=Thu, 31 Dec 2025 12:00:00 UTC";
       // #TODO: add first_name to localStorage
       localStorage.setItem("username", response.data["name"]);
-      router.replace("/profile");
+      router.replace("/profile/setting");
     })
     .catch(function (error) {
       toast.error("something go wrong");
@@ -128,7 +128,7 @@ const register = () => {
         `${response.data["token"]}` +
         "; expires=Thu, 31 Dec 2025 12:00:00 UTC";
       localStorage.setItem("username", first_name.value);
-      router.replace("/profile");
+      router.replace("/profile/setting");
     })
     .catch(function (error) {
       console.log(error);
