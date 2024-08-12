@@ -1,6 +1,12 @@
 <template>
   <div class="c-level-one-container">
-    <p>tracked product</p>
+    <div class="c-level-two-container">
+      <p>name : {{}}</p>
+      <p>original price : {{}}</p>
+      <p>your price : {{}}</p>
+      <button>Change price</button>
+      <button>Delete product</button>
+    </div>
   </div>
 </template>
 
@@ -19,5 +25,9 @@ const allProducts = ref();
   justify-content: center;
   align-items: center;
   height: 85vh;
+}
+.c-level-two-container {
+  display: flex;
+  flex-direction: row;
 }
 </style>
