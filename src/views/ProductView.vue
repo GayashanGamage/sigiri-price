@@ -52,7 +52,10 @@ import FooterCom from "@/components/FooterCom.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
 import axios from "axios";
 import { onBeforeMount, ref } from "vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
+const toast = useToast();
 const url = ref();
 const widget = ref(false);
 const offer = ref();
@@ -82,6 +85,7 @@ const getProduct = () => {
       sessionStorage.setItem("availability", response.data["availability"]);
       sessionStorage.setItem("code", response.data["code"]);
       sessionStorage.setItem("price", response.data["price"]);
+      sessionStorage.setItem("link", url.value);
 
       url.value = "";
     })
@@ -92,18 +96,18 @@ const getProduct = () => {
 
 const storeProduct = () => {
   let allCookie = document.cookie.split("; ");
-  let selectedCookie = ref();
+  let selectedCookie = "";
   for (let i = 0; i < allCookie.length; i++) {
     if (allCookie[i].startsWith("token=")) {
-      selectedCookie.value = allCookie[i].slice(6);
+      selectedCookie = allCookie[i].slice(6);
     }
   }
   axios
     .post(
       `${import.meta.env.VITE_site}/store`,
       {
-        link: url.value,
-        price: parseInt(sessionStorage.getItem("price")),
+        link: sessionStorage.getItem("link"),
+        price: sessionStorage.getItem("price"),
         title: sessionStorage.getItem("title"),
         track_price: parseInt(offer.value),
         code: sessionStorage.getItem("code"),
@@ -116,10 +120,19 @@ const storeProduct = () => {
       }
     )
     .then((response) => {
-      console.log(response.data);
+      toast.success("your product added successfully");
+      sessionStorage.clear();
+      widget.value = false;
+      productData.value = {
+        image: "",
+        title: "",
+        availability: "",
+        code: "",
+        price: "",
+      };
     })
     .catch((error) => {
-      console.log(error);
+      toast.error("something go wrong");
     });
 };
 
