@@ -15,7 +15,12 @@
             <td>{{ item["product"]["price"] }}</td>
             <td>{{ i["code"] }}</td>
             <td class="button-cell">
-              <button class="delete-button">Delete</button>
+              <button
+                class="delete-button"
+                @click="deleteProduct(item['product']['product_id'])"
+              >
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
@@ -30,7 +35,7 @@ import axios from "axios";
 import { onBeforeMount, ref } from "vue";
 
 name: "ProductCom";
-const allProducts = ref();
+const allProducts = ref([]);
 
 onBeforeMount(() => {
   let allCookie = document.cookie.split("; ");
@@ -54,6 +59,34 @@ onBeforeMount(() => {
       console.log(error.data);
     });
 });
+
+const deleteProduct = (product_id) => {
+  let allCookie = document.cookie.split("; ");
+  let selectedCookie = "";
+  for (let i = 0; i < allCookie.length; i++) {
+    if (allCookie[i].startsWith("token=")) {
+      selectedCookie = allCookie[i].slice(6);
+    }
+  }
+  axios
+    .delete(`${import.meta.env.VITE_site}/remove-product/${product_id}`, {
+      headers: {
+        Authorization: `Bearer ${selectedCookie}`,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      allProducts.value.forEach((element) => {
+        if (element["product"]["product_id"] == product_id) {
+          allProducts.value.splice(allProducts.value.indexOf(element), 1);
+        }
+      });
+      // console.log(allProducts.value);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 </script>
 
 <style scoped>
