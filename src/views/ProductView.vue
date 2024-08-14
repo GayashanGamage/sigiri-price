@@ -112,6 +112,7 @@ const storeProduct = () => {
         track_price: parseInt(offer.value),
         code: sessionStorage.getItem("code"),
         availability: sessionStorage.getItem("availability"),
+        image: sessionStorage.getItem("image"),
       },
       {
         headers: {

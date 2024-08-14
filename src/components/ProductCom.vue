@@ -6,15 +6,13 @@
           <th>Name</th>
           <th>Original price</th>
           <th>Your price</th>
-          <th>Code</th>
         </tr>
         <tbody v-for="item in allProducts" :key="item">
           <tr v-for="i in item['products']" :key="i">
             <td>{{ i["title"] }}</td>
             <td>{{ i["price"] }}</td>
             <td>{{ item["product"]["price"] }}</td>
-            <td>{{ i["code"] }}</td>
-            <td class="button-cell">
+            <!-- <td class="button-cell">
               <button
                 class="delete-button"
                 @click="deleteProduct(item['product']['product_id'])"
@@ -22,9 +20,95 @@
                 Delete
               </button>
             </td>
+            <td class="button-cell">
+              <button class="delete-button" @click="originalProduct(i['link'])">
+                Live product
+              </button>
+            </td> -->
+            <td class="button-cell">
+              <button
+                class="delete-button"
+                @click="popup_menu(allProducts.indexOf(item))"
+              >
+                More
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="popup-menu" v-if="popup">
+      <div class="product-box">
+        <div class="product-part head">
+          <span
+            class="material-symbols-outlined popup-close-button"
+            @click="popup = false"
+          >
+            cancel
+          </span>
+        </div>
+        <div class="product-part p-img">
+          <img
+            :src="selectedProduct['products'][0]['image']"
+            class="product-img"
+          />
+        </div>
+        <div class="product-part p-name">
+          <span class="popup-title">Name</span>
+          <br />
+          <span class="product-content">{{
+            selectedProduct["products"][0]["title"]
+          }}</span>
+          <hr class="product-content-divider" />
+        </div>
+        <div class="product-part p-name">
+          <span class="popup-title">Code</span>
+          <br />
+          <span class="product-content">{{
+            selectedProduct["products"][0]["code"]
+          }}</span>
+          <hr class="product-content-divider" />
+        </div>
+        <div class="product-part p-name">
+          <span class="popup-title">Availability</span>
+          <br />
+          <span class="product-content">{{
+            selectedProduct["products"][0]["availability"]
+          }}</span>
+          <hr class="product-content-divider" />
+        </div>
+        <div class="product-part p-name">
+          <span class="popup-title">Price</span>
+          <br />
+          <span class="product-content">{{
+            selectedProduct["products"][0]["price"]
+          }}</span>
+          <hr class="product-content-divider" />
+        </div>
+        <div class="product-part p-name">
+          <span class="popup-title">Your price</span>
+          <br />
+          <span class="product-content">{{
+            selectedProduct["product"]["price"]
+          }}</span>
+          <hr class="product-content-divider" />
+        </div>
+        <div class="product-part p-btn">
+          <button class="popup-button">Update price</button>
+          <button
+            class="popup-button"
+            @click="originalProduct(selectedProduct['products'][0]['link'])"
+          >
+            Live product
+          </button>
+          <button
+            class="popup-button"
+            @click="deleteProduct(selectedProduct['product']['product_id'])"
+          >
+            Delete product
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +120,8 @@ import { onBeforeMount, ref } from "vue";
 
 name: "ProductCom";
 const allProducts = ref([]);
+const selectedProduct = ref();
+const popup = ref(false);
 
 onBeforeMount(() => {
   let allCookie = document.cookie.split("; ");
@@ -76,6 +162,7 @@ const deleteProduct = (product_id) => {
     })
     .then((response) => {
       console.log(response.data);
+      popup.value = false;
       allProducts.value.forEach((element) => {
         if (element["product"]["product_id"] == product_id) {
           allProducts.value.splice(allProducts.value.indexOf(element), 1);
@@ -86,6 +173,15 @@ const deleteProduct = (product_id) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+const originalProduct = (link) => {
+  window.open(link);
+};
+
+const popup_menu = (item) => {
+  selectedProduct.value = allProducts.value[item];
+  popup.value = true;
 };
 </script>
 
@@ -101,7 +197,7 @@ const deleteProduct = (product_id) => {
   flex-direction: row;
 }
 .product-table {
-  width: 80vw;
+  width: 90vw;
 }
 th,
 td {
@@ -115,6 +211,9 @@ tr:nth-child(even) {
 .button-cell {
   background-color: white;
   border: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: min-content;
 }
 .delete-button {
   padding: 2px 20px;
@@ -122,5 +221,72 @@ tr:nth-child(even) {
 .table-hedding {
   background-color: #c8a1e0;
   color: white;
+}
+.popup-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(23, 59, 69, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product-box {
+  width: 43vw;
+  height: 60vh;
+  border-radius: 6px;
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: repeat(8, 2fr);
+  grid-template-columns: 2fr 2fr;
+  grid-template-areas:
+    "head head"
+    "img title"
+    "img code"
+    "img availability"
+    "img price"
+    "img update"
+    "img offer"
+    ".  button";
+}
+.head {
+  grid-area: head;
+}
+.p-img {
+  grid-area: img;
+}
+.product-img {
+  width: 90%;
+  height: 90%;
+}
+.product-content {
+  font-weight: 200;
+  font-size: 18px;
+}
+.product-content-divider {
+  width: 80%;
+  color: rgba(104, 109, 118, 0.2);
+}
+.popup-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+.popup-button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  font-size: 14px;
+  font-weight: 300;
+}
+.popup-close-button {
+  font-weight: 250;
+  font-size: 30px;
+  float: inline-end;
+  margin: 10px;
+  cursor: pointer;
+}
+.popup-close-button:hover {
+  color: red;
 }
 </style>
