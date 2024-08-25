@@ -2,16 +2,17 @@ import ProductCom from "@/components/ProductCom.vue";
 import SettingCom from "@/components/SettingCom.vue";
 import Member from "@/views/Member.vue";
 import MemberprocessView from "@/views/MemberprocessView.vue";
-import ProductView from "@/views/ProductView.vue";
+import ProductView from "@/components/ProductView.vue";
 import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "@/views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      component: ProductView,
+      component: HomeView,
       name: "productview",
     },
     {

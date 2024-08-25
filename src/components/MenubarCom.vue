@@ -1,7 +1,7 @@
 <template>
   <div class="c-level-one-container">
     <div class="c-level-two-container">
-      <h1 class="site-title" @click="homePage">RUKA.PRICE</h1>
+      <h1 class="site-title" @click="homePage">SIGIRI PRICE</h1>
       <div
         class="user common"
         v-if="!availablebutton"

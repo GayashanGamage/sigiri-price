@@ -1,7 +1,7 @@
 <template>
   <div class="v-level-one-container">
     <MenubarCom></MenubarCom>
-    <SearchbarCom></SearchbarCom>
+    <ProductView></ProductView>
     <FooterCom></FooterCom>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script setup>
 import FooterCom from "@/components/FooterCom.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
+import ProductView from "@/components/ProductView.vue";
 </script>
 
 <style scoped>

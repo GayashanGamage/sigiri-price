@@ -12,19 +12,6 @@
             <td>{{ i["title"] }}</td>
             <td>{{ i["price"] }}</td>
             <td>{{ item["product"]["price"] }}</td>
-            <!-- <td class="button-cell">
-              <button
-                class="delete-button"
-                @click="deleteProduct(item['product']['product_id'])"
-              >
-                Delete
-              </button>
-            </td>
-            <td class="button-cell">
-              <button class="delete-button" @click="originalProduct(i['link'])">
-                Live product
-              </button>
-            </td> -->
             <td class="button-cell">
               <button
                 class="delete-button"
@@ -37,6 +24,7 @@
         </tbody>
       </table>
     </div>
+    <!-- popup menu -->
     <div class="popup-menu" v-if="popup">
       <div class="product-box">
         <div class="product-part head">
@@ -88,13 +76,28 @@
         <div class="product-part p-name">
           <span class="popup-title">Your price</span>
           <br />
-          <span class="product-content">{{
+          <!-- <span class="product-content">{{
             selectedProduct["product"]["price"]
-          }}</span>
+          }}</span> -->
+          <input
+            type="text"
+            v-model="selectedProduct['product']['price']"
+            class="product-content"
+          />
           <hr class="product-content-divider" />
         </div>
         <div class="product-part p-btn">
-          <button class="popup-button">Update price</button>
+          <button
+            class="popup-button"
+            @click="
+              updatePrice(
+                selectedProduct['product']['price'],
+                selectedProduct['product']['product_id']
+              )
+            "
+          >
+            Update price
+          </button>
           <button
             class="popup-button"
             @click="originalProduct(selectedProduct['products'][0]['link'])"
@@ -183,6 +186,18 @@ const popup_menu = (item) => {
   selectedProduct.value = allProducts.value[item];
   popup.value = true;
 };
+
+// const updatePrice = (price, id) => {
+//   axios.put(`${import.meta.env.VITE_site}/track-update`, {'data' : {
+//     'track_id' : id,
+//     'price' : price
+//   },
+// {
+//   headers : {
+//     Authorization : `${}`
+//   }
+// })
+// };
 </script>
 
 <style scoped>
