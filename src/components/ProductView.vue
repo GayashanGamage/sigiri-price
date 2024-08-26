@@ -1,7 +1,14 @@
 <template>
   <div class="c-level-one-container" id="product-view">
     <div class="c-level-two-container search">
-      <input type="text" class="url-input" v-model="url" />
+      <input
+        type="text"
+        class="url-input"
+        v-model="productUrl"
+        @focusout="limitLenth()"
+        @focusin="fullLenth()"
+        id="url-input"
+      />
       <button class="find-button" @click="getProduct">Show Product</button>
     </div>
     <div class="c-level-two-container product" v-if="widget">
@@ -59,47 +66,52 @@ import "vue-toast-notification/dist/theme-sugar.css";
 
 const store = productStore();
 const toast = useToast();
-const url = ref();
+const productUrl = ref(null);
 const widget = ref(false);
 const offer = ref();
 
 // scrape product and show in front end
 const getProduct = () => {
-  // request to end point
-  axios
-    .get(`${import.meta.env.VITE_site}/product`, {
-      params: { link: url.value },
-    })
-    .then(function (response) {
-      // increase height of the productview component
-      document.getElementById("product-view").style.height = "100vh";
-      // available product widget
-      widget.value = true;
+  // check url and verify sinhagiri.lk
+  if (productUrl.value.toLowerCase().search("singhagiri.lk") === -1) {
+    toast.error("URL looks like not from singhagiri.lk");
+  } else {
+    // request to end point
+    axios
+      .get(`${import.meta.env.VITE_site}/product`, {
+        params: { link: productUrl.value },
+      })
+      .then(function (response) {
+        // increase height of the productview component
+        document.getElementById("product-view").style.height = "100vh";
+        // available product widget
+        widget.value = true;
 
-      let image = response.data["image"];
-      let title = response.data["title"];
-      let availability = response.data["availability"];
-      let code = response.data["code"];
-      let price = response.data["price"];
+        let image = response.data["image"];
+        let title = response.data["title"];
+        let availability = response.data["availability"];
+        let code = response.data["code"];
+        let price = response.data["price"];
 
-      // store in response product data in localStore
-      sessionStorage.setItem("image", image);
-      sessionStorage.setItem("title", title);
-      sessionStorage.setItem("availability", availability);
-      sessionStorage.setItem("code", code);
-      sessionStorage.setItem("price", price);
-      sessionStorage.setItem("link", url.value);
+        // store in response product data in localStore
+        sessionStorage.setItem("image", image);
+        sessionStorage.setItem("title", title);
+        sessionStorage.setItem("availability", availability);
+        sessionStorage.setItem("code", code);
+        sessionStorage.setItem("price", price);
+        sessionStorage.setItem("link", productUrl.value);
 
-      // store response product in pinia store
-      store.setData(image, title, availability, code, price);
+        // store response product in pinia store
+        store.setData(image, title, availability, code, price);
 
-      // remove search url
-      url.value = "";
-    })
-    // error handling
-    .catch(function (error) {
-      console.log(error);
-    });
+        // remove search productUrl
+        productUrl.value = "";
+      })
+      // error handling
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 };
 
 // store product in database
@@ -208,6 +220,16 @@ const removeProduct = () => {
   // reset offer/tracking price
   offer.value = null;
 };
+const limitLenth = () => {
+  if (productUrl.value.length > 10) {
+    document.getElementById("url-input").value =
+      productUrl.value.slice(0, 25) + "...";
+  }
+};
+
+const fullLenth = () => {
+  document.getElementById("url-input").value = productUrl.value;
+};
 </script>
 <style scoped>
 .c-level-one-container {
@@ -216,6 +238,7 @@ const removeProduct = () => {
   margin: 0px !important;
   padding: 0px;
   position: 0;
+  background-color: #f6f6f6;
 }
 .c-level-two-container {
   width: 99vw;

@@ -2,14 +2,18 @@
   <div class="v-level-one-container">
     <MenubarCom></MenubarCom>
     <ProductView></ProductView>
+    <What></What>
+    <HowToWork></HowToWork>
     <FooterCom></FooterCom>
   </div>
 </template>
 
 <script setup>
 import FooterCom from "@/components/FooterCom.vue";
+import HowToWork from "@/components/HowToWork.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
 import ProductView from "@/components/ProductView.vue";
+import What from "@/components/What.vue";
 </script>
 
 <style scoped>

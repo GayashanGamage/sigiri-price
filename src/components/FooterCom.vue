@@ -13,15 +13,16 @@ name: "FooterCom";
 
 <style scoped>
 .f-level-one-container {
-  background-color: #eeeeee;
+  background-color: #6482ad;
   height: 7vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #f5eded;
 }
 a {
   text-decoration: none;
-  color: black;
+  color: #f5eded;
 }
 a:hover {
   text-decoration: underline;

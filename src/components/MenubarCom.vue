@@ -83,7 +83,7 @@ const directTo = (link) => {
 
 <style scoped>
 .c-level-one-container {
-  background-color: #eeeeee;
+  background-color: #6482ad;
   margin-top: 0;
   padding-top: 0;
   height: 8vh;
@@ -91,13 +91,13 @@ const directTo = (link) => {
   flex-direction: row;
 }
 .c-level-two-container {
-  border: 1px solid black;
   width: 100%;
 }
 .site-title {
   font-family: "League Spartan", sans-serif;
   padding: 10px 40px;
   float: left;
+  color: #f5eded;
 }
 .logout {
   width: 100px;
