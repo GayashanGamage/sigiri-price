@@ -4,6 +4,7 @@
     <ProductView></ProductView>
     <What></What>
     <HowToWork></HowToWork>
+    <QA></QA>
     <FooterCom></FooterCom>
   </div>
 </template>
@@ -13,6 +14,7 @@ import FooterCom from "@/components/FooterCom.vue";
 import HowToWork from "@/components/HowToWork.vue";
 import MenubarCom from "@/components/MenubarCom.vue";
 import ProductView from "@/components/ProductView.vue";
+import QA from "@/components/QA.vue";
 import What from "@/components/What.vue";
 </script>
 
