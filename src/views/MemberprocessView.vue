@@ -7,10 +7,25 @@
           <span class="material-symbols-outlined back-icon"> arrow_back </span>
           <p class="back-text">Go back</p>
         </div>
+        <!-- option buttons -->
         <div class="v-level-four-container buttons">
-          <button @click="memberAction('sup')">Sinup</button>
-          <button @click="memberAction('sin')">SinIn</button>
+          <button
+            @click="memberAction('sup')"
+            class="option-button signup"
+            id="signup"
+          >
+            SignUp
+          </button>
+          <button
+            @click="memberAction('sin')"
+            class="option-button signin selected"
+            id="signin"
+          >
+            SignIn
+          </button>
         </div>
+
+        <!-- signin part -->
         <div class="v-level-four-container action" v-if="sin">
           <input
             type="text"
@@ -26,6 +41,8 @@
           />
           <button class="userAction" @click="login">LogIn</button>
         </div>
+
+        <!-- signup part -->
         <div class="v-level-four-container action" v-if="sup">
           <input
             type="text"
@@ -82,13 +99,18 @@ const password = ref();
 const l_email = ref();
 const l_password = ref();
 
+// change selected button apearence
 const memberAction = (val) => {
   if (val === "sup") {
     sin.value = false;
     sup.value = true;
+    document.getElementById("signin").classList.remove("selected");
+    document.getElementById("signup").classList.add("selected");
   } else {
     sin.value = true;
     sup.value = false;
+    document.getElementById("signup").classList.remove("selected");
+    document.getElementById("signin").classList.add("selected");
   }
 };
 
@@ -144,6 +166,7 @@ const register = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #f6f6f6;
 }
 .v-level-three-container {
   width: 27vw;
@@ -159,7 +182,8 @@ const register = () => {
   width: 100%;
   gap: 10px;
   height: 85%;
-  border: 1px solid black;
+  background-color: #ffffff;
+  box-shadow: 4px 4px 13px 4px #f5eded;
   border-radius: 0 0 4px 4px;
   border-top: 0px;
 }
@@ -174,11 +198,21 @@ const register = () => {
   width: 70%;
   font-weight: 200;
   outline: none;
-  padding-left: 20px;
+  padding: 5px 0px 5px 20px;
+  border-radius: 6px;
+  border: 1px solid #cec8c8;
 }
 .userAction {
   width: 76%;
-  height: 30px;
+  height: 36px;
+  border-radius: 6px;
+  border: 0px;
+  background-color: #7fa1c3;
+  font-size: 18px;
+  color: #ffffff;
+}
+.userAction:hover {
+  background-color: #6482ad;
 }
 .back {
   /* border: 1px solid black; */
@@ -188,8 +222,33 @@ const register = () => {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  color: #7fa1c3;
+}
+.back:hover {
+  color: #6482ad;
 }
 .back-text {
   margin-left: 20px;
+}
+.option-button {
+  background-color: #7fa1c3;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 300;
+  border: 0px;
+}
+.option-button:hover {
+  background-color: #6482ad;
+}
+.signin {
+  border-radius: 0 6px 0 0;
+}
+.signup {
+  border-radius: 6px 0 0 0;
+}
+.selected {
+  background-color: #6482ad;
+  font-weight: 500;
 }
 </style>

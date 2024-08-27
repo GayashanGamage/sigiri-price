@@ -96,6 +96,7 @@ const showAnsware = (item) => {
   font-size: 22px;
   font-weight: 200;
   background-color: #ffffff;
+  box-shadow: 4px 4px 13px 4px #f5eded;
   width: 75vw;
   padding: 5px;
   border-radius: 8px;
