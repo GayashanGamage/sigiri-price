@@ -11,49 +11,54 @@
       />
       <button class="find-button" @click="getProduct">Show Product</button>
     </div>
-    <div class="c-level-two-container product" v-if="widget">
-      <div class="c-level-three-container">
-        <div class="close-container">
-          <span class="material-symbols-outlined close" @click="removeProduct">
-            cancel
-          </span>
-        </div>
-        <div class="product-details" id="img">
-          <img :src="store.image" alt="" class="product-image" />
-        </div>
-        <div class="product-details" id="title">
-          {{ store.title.toUpperCase() }}
-        </div>
-        <div class="product-details" id="availability">
-          <p class="availability-text">{{ store.availability }}</p>
-        </div>
-        <div class="c-level-four-container">
-          <div class="c-level-five-container">
-            <p class="field-title">PRODUCT CODE</p>
-            <p class="field-title">PRICE</p>
-            <p class="field-title">MY OFFER Rs.</p>
+    <transition name="item">
+      <div class="c-level-two-container product" v-if="widget">
+        <div class="c-level-three-container">
+          <div class="close-container">
+            <span
+              class="material-symbols-outlined close"
+              @click="removeProduct"
+            >
+              cancel
+            </span>
           </div>
-          <div class="c-level-five-container">
-            <p class="product-details common" id="code">
-              {{ store.code }}
-            </p>
-            <p class="product-details common" id="price">
-              {{ store.price }}
-            </p>
-            <input
-              type="text"
-              placeholder="9950"
-              id="offer-input"
-              class="product-details common"
-              v-model="offer"
-            />
+          <div class="product-details" id="img">
+            <img :src="store.image" alt="" class="product-image" />
           </div>
-        </div>
-        <div class="product-details">
-          <button class="track-button" @click="storeProduct">TRACK ME</button>
+          <div class="product-details" id="title">
+            {{ store.title.toUpperCase() }}
+          </div>
+          <div class="product-details" id="availability">
+            <p class="availability-text">{{ store.availability }}</p>
+          </div>
+          <div class="c-level-four-container">
+            <div class="c-level-five-container">
+              <p class="field-title">PRODUCT CODE</p>
+              <p class="field-title">PRICE</p>
+              <p class="field-title">MY OFFER Rs.</p>
+            </div>
+            <div class="c-level-five-container">
+              <p class="product-details common" id="code">
+                {{ store.code }}
+              </p>
+              <p class="product-details common" id="price">
+                {{ store.price }}
+              </p>
+              <input
+                type="text"
+                placeholder="9950"
+                id="offer-input"
+                class="product-details common"
+                v-model="offer"
+              />
+            </div>
+          </div>
+          <div class="product-details">
+            <button class="track-button" @click="storeProduct">TRACK ME</button>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -207,8 +212,13 @@ onMounted(() => {
   }
 });
 
+// delay for animation
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // remove product data from frontend
-const removeProduct = () => {
+const removeProduct = async () => {
   // clear session storage
   sessionStorage.clear();
   // clear product data from pinia store
@@ -216,6 +226,7 @@ const removeProduct = () => {
   // remove product widget
   widget.value = false;
   // back to normal size of this product
+  await delay(1200);
   document.getElementById("product-view").style.height = "30vh";
   // reset offer/tracking price
   offer.value = null;
@@ -341,12 +352,18 @@ const fullLenth = () => {
   width: 200px;
   height: 30px;
   font-family: "League Spartan", sans-serif;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 1px;
   font-size: 20px;
   border: 0px;
   margin: 20px;
   border-radius: 4px;
+  background-color: #7fa1c3;
+  color: #ffffff;
+}
+.find-button:hover {
+  background-color: #6482ad;
+  font-weight: 500;
 }
 .search {
   height: 24vh;
@@ -364,5 +381,24 @@ const fullLenth = () => {
 .close:hover {
   font-size: 35px;
   color: red;
+}
+/* product transition */
+.item-enter-from {
+  opacity: 0;
+}
+.item-enter-to {
+  opacity: 1;
+}
+.item-enter-active {
+  transition: all 900ms ease;
+}
+.item-leave-from {
+  opacity: 1;
+}
+.item-leave-to {
+  opacity: 0;
+}
+.item-leave-active {
+  transition: all 900ms ease;
 }
 </style>
