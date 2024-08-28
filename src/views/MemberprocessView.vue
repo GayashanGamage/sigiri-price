@@ -37,8 +37,19 @@
             type="password"
             placeholder="Password"
             class="user_input"
+            id="user_input"
             v-model="l_password"
+            @keypress="toggleButton"
+            @focusout="hideToggleButton"
           />
+          <p
+            v-if="dotToggle"
+            id="toggle"
+            @click="passwordToggle"
+            class="showHide"
+          >
+            show
+          </p>
           <button class="userAction" @click="login">LogIn</button>
         </div>
 
@@ -60,13 +71,28 @@
             type="password"
             placeholder="password"
             class="user_input"
+            id="password_sup_1"
             v-model="password"
+            @keypress="toggleButton_sup"
+            @focusout="hideToggleButton_sup"
           />
-          <!-- <input
+          <input
             type="password"
             placeholder="Confirm password"
             class="user_input"
-          /> -->
+            id="password_sup_2"
+            v-model="password2"
+            @keypress="toggleButton_sup"
+            @focusout="hideToggleButton_sup"
+          />
+          <p
+            v-if="dotToggle_sup"
+            id="toggle_sup"
+            @click="passwordToggle_sup"
+            class="showHide"
+          >
+            show
+          </p>
           <button class="userAction" @click="register">Register</button>
         </div>
       </div>
@@ -90,14 +116,81 @@ const toast = useToast();
 const sin = ref(true);
 const sup = ref(false);
 
+// signup data collectors -----------------------
+const dotToggle = ref(false);
+const dotToText = ref(false);
+
 // user register details
-const email = ref();
-const first_name = ref();
-const password = ref();
+const email = ref("");
+const first_name = ref("");
+const password = ref("");
+const password2 = ref("");
+
+// signin data collectors -----------------------
+const dotToggle_sup = ref(false);
+const dotToText_sup = ref(false);
 
 // loging credentials
-const l_email = ref();
-const l_password = ref();
+const l_email = ref("");
+const l_password = ref("");
+
+// signIn functions -----------------------------
+// show text password show functionality
+const toggleButton = () => {
+  if (l_password.value.length > 0) {
+    dotToggle.value = true;
+  }
+};
+
+// hide text password show functionality
+const hideToggleButton = () => {
+  if (l_password.value.length == 0) {
+    dotToggle.value = false;
+  }
+};
+
+// toggle between text and dot in password
+const passwordToggle = () => {
+  if (dotToText.value == false) {
+    document.getElementById("user_input").type = "text";
+    document.getElementById("toggle").innerHTML = "Hide";
+    dotToText.value = true;
+  } else {
+    document.getElementById("user_input").type = "password";
+    document.getElementById("toggle").innerHTML = "Show";
+    dotToText.value = false;
+  }
+};
+
+// signup functions ---------------------------------
+// show text password show functionality
+const toggleButton_sup = () => {
+  if (password.value.length > 0 || password2.value.length > 0) {
+    dotToggle_sup.value = true;
+  }
+};
+
+// hide text password show functionality
+const hideToggleButton_sup = () => {
+  if (password.value.length == 0 && password2.value.length == 0) {
+    dotToggle_sup.value = false;
+  }
+};
+
+// toggle between text and dot in password
+const passwordToggle_sup = () => {
+  if (dotToText_sup.value == false) {
+    // console.log("yep");
+    document.getElementById("password_sup_1").type = "text";
+    document.getElementById("password_sup_2").type = "text";
+    dotToText_sup.value = true;
+  } else {
+    // console.log("nop");
+    document.getElementById("password_sup_1").type = "password";
+    document.getElementById("password_sup_2").type = "password";
+    dotToText_sup.value = false;
+  }
+};
 
 // change selected button apearence
 const memberAction = (val) => {
@@ -114,6 +207,7 @@ const memberAction = (val) => {
   }
 };
 
+// go back funciton
 const goBack = () => {
   router.replace("/");
 };
@@ -137,6 +231,8 @@ const login = () => {
       toast.error("something go wrong");
     });
 };
+
+// register function
 const register = () => {
   axios
     .post(`${import.meta.env.VITE_site}/create-user`, {
@@ -250,5 +346,14 @@ const register = () => {
 .selected {
   background-color: #6482ad;
   font-weight: 500;
+}
+.showHide {
+  align-self: flex-end;
+  margin-right: 55px;
+  color: #7fa1c3;
+  cursor: pointer;
+}
+.showHide:hover {
+  color: #000000;
 }
 </style>
