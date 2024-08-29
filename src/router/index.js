@@ -40,4 +40,31 @@ const router = createRouter({
     },
   ],
 });
+
+// router guade
+router.beforeEach((to, from, next) => {
+  // get cookie
+  let allCookie = document.cookie.split("; ");
+  let selectedCookie = "";
+  for (let i = 0; i < allCookie.length; i++) {
+    if (allCookie[i].startsWith("token=")) {
+      selectedCookie = allCookie[i].slice(6);
+    }
+  }
+  // get username from local storage
+  let username = localStorage.getItem("username");
+  // evaluate path
+  if (
+    to.name === "member" ||
+    to.name === "user-setting" ||
+    to.name === "user-product"
+  ) {
+    // check whether authonticated or not
+    if (selectedCookie === "" || username === null) {
+      router.push("/member");
+    }
+  }
+  next();
+});
+
 export default router;
