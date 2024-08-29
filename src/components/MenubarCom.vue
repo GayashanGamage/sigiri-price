@@ -74,7 +74,7 @@ const logout = () => {
     }
   }
   localStorage.removeItem("username");
-  router.push("/member");
+  router.replace("/member");
 };
 
 const directTo = (link) => {

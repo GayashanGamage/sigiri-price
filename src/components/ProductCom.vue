@@ -1,15 +1,16 @@
 <template>
   <div class="c-level-one-container">
     <div class="c-level-two-container">
-      <table class="product-table">
+      <table class="product-table" v-if="table">
         <tr class="table-hedding">
           <th>Name</th>
           <th>Original price</th>
           <th>Your price</th>
+          <th>Details</th>
         </tr>
         <tbody v-for="item in allProducts" :key="item">
           <tr v-for="i in item['products']" :key="i">
-            <td>{{ i["title"] }}</td>
+            <td class="product-title">{{ i["title"] }}</td>
             <td>{{ i["price"] }}</td>
             <td>{{ item["product"]["price"] }}</td>
             <td class="button-cell">
@@ -23,6 +24,7 @@
           </tr>
         </tbody>
       </table>
+      <p v-if="!table">here is no any product in your tracks</p>
     </div>
     <!-- popup menu -->
     <div class="popup-menu" v-if="popup">
@@ -119,12 +121,13 @@
 <script setup>
 import router from "@/router";
 import axios from "axios";
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 
 name: "ProductCom";
 const allProducts = ref([]);
 const selectedProduct = ref();
 const popup = ref(false);
+const table = ref(false);
 
 onBeforeMount(() => {
   let allCookie = document.cookie.split("; ");
@@ -142,7 +145,10 @@ onBeforeMount(() => {
     })
     .then((response) => {
       allProducts.value = response.data;
-      console.log(response.data);
+      // enable product table view if data available
+      if (allProducts.value.length > 0) {
+        table.value = true;
+      }
     })
     .catch((error) => {
       console.log(error.data);
@@ -164,14 +170,15 @@ const deleteProduct = (product_id) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
       popup.value = false;
       allProducts.value.forEach((element) => {
         if (element["product"]["product_id"] == product_id) {
           allProducts.value.splice(allProducts.value.indexOf(element), 1);
+          if (allProducts.value.length == 0) {
+            table.value = false;
+          }
         }
       });
-      // console.log(allProducts.value);
     })
     .catch((error) => {
       console.log(error);
@@ -186,30 +193,16 @@ const popup_menu = (item) => {
   selectedProduct.value = allProducts.value[item];
   popup.value = true;
 };
-
-// const updatePrice = (price, id) => {
-//   axios.put(`${import.meta.env.VITE_site}/track-update`, {'data' : {
-//     'track_id' : id,
-//     'price' : price
-//   },
-// {
-//   headers : {
-//     Authorization : `${}`
-//   }
-// })
-// };
 </script>
 
 <style scoped>
 .c-level-one-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 85vh;
 }
 .c-level-two-container {
-  display: flex;
-  flex-direction: row;
+  margin-top: 80px;
 }
 .product-table {
   width: 90vw;
@@ -303,5 +296,8 @@ tr:nth-child(even) {
 }
 .popup-close-button:hover {
   color: red;
+}
+.product-title {
+  color: green;
 }
 </style>
