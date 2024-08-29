@@ -28,6 +28,7 @@
 import router from "@/router";
 import { onClickOutside } from "@vueuse/core";
 import { onBeforeMount, ref } from "vue";
+
 name: "MenubarCom";
 
 // menubar button toggle
@@ -73,7 +74,7 @@ const logout = () => {
     }
   }
   localStorage.removeItem("username");
-  router.replace("/");
+  router.push("/member");
 };
 
 const directTo = (link) => {

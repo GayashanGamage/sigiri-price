@@ -183,11 +183,13 @@ const passwordToggle_sup = () => {
     // console.log("yep");
     document.getElementById("password_sup_1").type = "text";
     document.getElementById("password_sup_2").type = "text";
+    document.getElementById("toggle_sup").innerHTML = "Hide";
     dotToText_sup.value = true;
   } else {
     // console.log("nop");
     document.getElementById("password_sup_1").type = "password";
     document.getElementById("password_sup_2").type = "password";
+    document.getElementById("toggle_sup").innerHTML = "Show";
     dotToText_sup.value = false;
   }
 };
