@@ -6,7 +6,6 @@
           <th>Name</th>
           <th>Original price</th>
           <th>Your price</th>
-          <th>Details</th>
         </tr>
         <tbody v-for="item in allProducts" :key="item">
           <tr v-for="i in item['products']" :key="i">
@@ -224,10 +223,20 @@ tr:nth-child(even) {
   width: min-content;
 }
 .delete-button {
-  padding: 2px 20px;
+  padding: 4px 25px;
+  font-size: 18px;
+  font-weight: 300;
+  border: 0px;
+  border-radius: 4px;
+  background-color: #7fa1c3;
+  color: #ffffff;
+}
+.delete-button:hover {
+  background-color: #6482ad;
+  font-weight: 350;
 }
 .table-hedding {
-  background-color: #c8a1e0;
+  background-color: #7fa1c3;
   color: white;
 }
 .popup-menu {

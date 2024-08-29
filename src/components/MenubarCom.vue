@@ -2,20 +2,21 @@
   <div class="c-level-one-container">
     <div class="c-level-two-container">
       <h1 class="site-title" @click="homePage">SIGIRI PRICE</h1>
+      <!-- user icon for menu -->
       <div
         class="user common"
         v-if="!availablebutton"
         @click="showMenu"
         ref="userProfileIcon"
       >
-        <p class="user-icon">{{ user_name.slice(0, 2) }}</p>
+        <p class="user-icon">{{ user_name.slice(0, 2).toLocaleUpperCase() }}</p>
       </div>
       <button class="logout common" @click="memberPage" v-if="availablebutton">
         Member
       </button>
     </div>
     <div class="user-menu" v-if="userMenuTogle" @mouseleave="showMenu">
-      <p class="menu-column" @click="directTo('/profile/setting')">Settings</p>
+      <p class="menu-column" @click="directTo('/profile/setting')">Profile</p>
       <p class="menu-column" @click="directTo('/profile/product')">
         Track products
       </p>
@@ -110,7 +111,7 @@ const directTo = (link) => {
 .user {
   width: 40px;
   height: 40px;
-  border: 1px solid black;
+  border: 1px solid #ffffff;
   border-radius: 100%;
   margin: 6px 40px;
   display: flex;
@@ -124,27 +125,29 @@ const directTo = (link) => {
   position: absolute;
   top: 9vh;
   right: 1%;
-  width: 300px;
+  width: 200px;
   height: auto;
-  border-radius: 3px;
-  box-shadow: 1px 1px 1px 1px#888888;
+  border-radius: 2px;
+  background-color: rgba(100, 130, 173, 8);
 }
 .user-icon {
   font-weight: 800;
-  font-size: 24px;
+  font-size: 20px;
+  color: #ffffff;
 }
 .menu-column {
   height: 40px;
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 200;
   margin-left: 30px;
   margin-top: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: #ffffff;
 }
 .menu-column:hover {
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
 }
 </style>
