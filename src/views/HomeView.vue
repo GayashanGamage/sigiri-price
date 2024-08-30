@@ -10,12 +10,12 @@
 </template>
 
 <script setup>
-import FooterCom from "@/components/FooterCom.vue";
-import HowToWork from "@/components/HowToWork.vue";
-import MenubarCom from "@/components/MenubarCom.vue";
-import ProductView from "@/components/ProductView.vue";
-import QA from "@/components/QA.vue";
-import What from "@/components/What.vue";
+import FooterCom from "@/components/Common/FooterCom.vue";
+import HowToWork from "@/components/Homepage/HowToWork.vue";
+import MenubarCom from "@/components/Common/MenubarCom.vue";
+import ProductView from "@/components/Homepage/ProductView.vue";
+import QA from "@/components/Homepage/QA.vue";
+import What from "@/components/Homepage/What.vue";
 </script>
 
 <style scoped>

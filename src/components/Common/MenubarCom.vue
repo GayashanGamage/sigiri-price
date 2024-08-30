@@ -71,7 +71,7 @@ const logout = () => {
   let allCookie = document.cookie.split("; ");
   for (let i = 0; i < allCookie.length; i++) {
     if (allCookie[i].startsWith("token=")) {
-      document.cookie = allCookie[i] + "; max-age=-100";
+      document.cookie = allCookie[i] + "; max-age=-10000";
     }
   }
   localStorage.removeItem("username");

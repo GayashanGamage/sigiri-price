@@ -7,8 +7,8 @@
 </template>
 
 <script setup>
-import FooterCom from "@/components/FooterCom.vue";
-import MenubarCom from "@/components/MenubarCom.vue";
+import FooterCom from "@/components/Common/FooterCom.vue";
+import MenubarCom from "@/components/Common/MenubarCom.vue";
 import axios from "axios";
 name: "Member";
 </script>
