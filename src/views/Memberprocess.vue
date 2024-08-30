@@ -74,7 +74,7 @@ const goBack = () => {
   height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 60px;
   align-items: center;
   background-color: #f6f6f6;
 }
