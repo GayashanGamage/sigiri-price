@@ -30,7 +30,7 @@ const qlist = ref([
   {
     no: 0,
     q: "How to see my tracked product",
-    a: "yes. it's totaly free",
+    a: "Click user icon from top-right side. from there select 'Track Product' tab",
     visibility: false,
     icon: "+",
   },
