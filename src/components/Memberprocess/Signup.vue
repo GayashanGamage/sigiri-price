@@ -73,7 +73,7 @@
 <script setup>
 import router from "@/router";
 import axios from "axios";
-import { ref, watch } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
@@ -154,12 +154,14 @@ const register = () => {
 // watch for password lenth
 watch(password, (newValue, oldValue) => {
   if (newValue.length >= 8) {
+    valiedPassword.value = true;
     // change color of validation message
     document.getElementById("validation2").classList.add("valied");
     document.getElementById("validation2").classList.remove("invalied");
     // change icon of validation message
     document.getElementById("validation2-icon").innerHTML = "check";
   } else {
+    valiedPassword.value = false;
     // change color of validation message
     document.getElementById("validation2").classList.remove("valied");
     document.getElementById("validation2").classList.add("invalied");
@@ -170,18 +172,20 @@ watch(password, (newValue, oldValue) => {
 
 // watch for email validation
 watch(email, (newValue, oldValue) => {
-  let valiedEmail = String(newValue)
+  let emailValidation = String(newValue)
     .toLowerCase()
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
-  if (valiedEmail != null) {
+  if (emailValidation !== null) {
+    valiedEmail.value = true;
     // change color of validation message
     document.getElementById("validation1").classList.add("valied");
     document.getElementById("validation1").classList.remove("invalied");
     // change validation icon
     document.getElementById("validation1-icon").innerHTML = "check";
   } else {
+    valiedEmail.value = true;
     // change color of validation message
     document.getElementById("validation1").classList.remove("valied");
     document.getElementById("validation1").classList.add("invalied");
@@ -198,12 +202,14 @@ watch(
       newPassword === newPassword2 &&
       (newPassword !== "" || newPassword2 !== "")
     ) {
+      passwordMatch.value = true;
       // change color of validation message
       document.getElementById("validation3").classList.remove("invalied");
       document.getElementById("validation3").classList.add("valied");
       // change icon of validation message
       document.getElementById("validation3-icon").innerHTML = "check";
     } else {
+      passwordMatch.value = false;
       // change color of validation message
       document.getElementById("validation3").classList.add("invalied");
       document.getElementById("validation3").classList.remove("valied");

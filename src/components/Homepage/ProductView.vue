@@ -8,6 +8,7 @@
         @focusout="limitLenth()"
         @focusin="fullLenth()"
         id="url-input"
+        placeholder="Product URL"
       />
       <button class="find-button" @click="getProduct">Show Product</button>
     </div>

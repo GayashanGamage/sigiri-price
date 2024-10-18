@@ -5,11 +5,9 @@
     </div>
     <div class="c-level-two-container">
       <p class="description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-        voluptatum laborum libero odio. Animi similique est odio voluptates
-        consequuntur. Minus consequatur delectus corrupti in enim, rerum
-        architecto cum, at id a consequuntur temporibus earum optio praesentium
-        sequi voluptas dicta explicabo.
+        Price fluctualtion is common thing in sri lanka now a days. SIGIRI PRICE
+        allow you to get alerts on your preference price of the product in one
+        of the leading e-commerce website - sri lanka SINHAGIRI PVT LTD
       </p>
     </div>
   </div>

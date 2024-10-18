@@ -7,49 +7,38 @@
       <div class="levels">
         <h3 class="sub-title">First step</h3>
         <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
+          If your are still not a member of the SIGIRI PRICE - then create an
+          account. otherwise login as a member.
         </p>
       </div>
       <div class="levels">
         <h3 class="sub-title">Second step</h3>
-        <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
-        </p>
+        <p class="description">go to 'https://singhagiri.lk/' web portal.</p>
       </div>
       <div class="levels">
         <h3 class="sub-title">Third step</h3>
-        <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
-        </p>
+        <p class="description">find a product that you want to get update on</p>
       </div>
       <div class="levels">
         <h3 class="sub-title">Fourth step</h3>
         <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
+          copy the entire URL or the product. for a example -
+          "https://singhagiri.lk/product/samsung-galaxy-a06-6gb128gb"
         </p>
       </div>
       <div class="levels">
         <h3 class="sub-title">Fifth step</h3>
         <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
+          past copied link in our 'Product URL' box and find out the accual
+          product from our site.
         </p>
       </div>
       <div class="levels">
         <h3 class="sub-title">Six step</h3>
         <p class="description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. At nostrum
-          delectus hic architecto beatae sit illum eaque sapiente fuga?
-          Provident?
+          put your prefference tracking price and in the product showcase and
+          get price update to your email when actual price change toward your
+          price.
         </p>
       </div>
     </div>
