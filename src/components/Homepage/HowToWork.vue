@@ -25,7 +25,7 @@
           copy the entire URL or the product. for a example -
           "https://singhagiri.lk/product/samsung-galaxy-a06-6gb128gb"
         </p>
-      </div>
+        </div>
       <div class="levels">
         <h3 class="sub-title">Fifth step</h3>
         <p class="description">
@@ -45,7 +45,12 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+
+
+</script>
 
 <style scoped>
 .c-level-one-container {

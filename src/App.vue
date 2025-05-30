@@ -9,9 +9,9 @@ name: "App";
 </script>
 
 <style>
-* {
+/* * {
   margin: 0;
   padding: 0;
   font-family: "League Spartan", sans-serif;
-}
+} */
 </style>

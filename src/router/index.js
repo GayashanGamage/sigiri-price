@@ -4,12 +4,18 @@ import Member from "@/views/Member.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import Memberprocess from "@/views/Memberprocess.vue";
+import Homepage from "@/views/Homepage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
+      component: Homepage,
+      name: "productview2",
+    },
+    {
+      path: "/home",
       component: HomeView,
       name: "productview",
     },
