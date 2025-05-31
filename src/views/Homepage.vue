@@ -1,12 +1,6 @@
 <template>
     <div class="w-full h-screen relative">
-        <!-- menu bar -->
-        <div class="flex flex-col py-4 w-full h-auto border-b xl:px-[0px] px-[20px]">
-            <div class="flex flex-row justify-between mx-auto max-w-[1200px] min-w-[300px] w-full">
-                <h1 class="text-2xl font-black">SIGIRI Price</h1>
-                <button class="border px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer" @click="siteData.membersPopup = true">Members</button>
-            </div>
-        </div>
+        <Menubar></Menubar>
         <!-- Introduction part -->
         <div class="flex flex-col w-full xl:px-[0px] px-[20px]">
             <div class="flex flex-col gap-[40px] justify-center mx-auto max-w-[1200px] min-w-[300px] w-full">
@@ -83,18 +77,15 @@
                 </div>
             </div>
         </div>
-        <!-- footer section -->
-        <div class="flex flex-col py-2 w-full h-auto border-t xl:px-[0px] px-[20px]">
-            <div class="flex flex-row justify-center mx-auto max-w-[1200px] min-w-[300px] w-full">
-                <p class="font-light font-mono">Develop by <span class="font-black text-gray-400"><a href="https://gamage.dev" target="_blank">Gamage.dev</a></span></p>
-            </div>
-        </div>
+        <Footer></Footer>
         <Members></Members>
         <Passwordreset></Passwordreset>
     </div>
 </template>
 
 <script setup>
+import Footer from "@/components/parts/footer.vue";
+import Menubar from "@/components/parts/menubar.vue";
 import subheading from "@/components/parts/subheading.vue"
 import Members from "@/components/popups/members.vue";
 import Passwordreset from "@/components/popups/passwordreset.vue";
