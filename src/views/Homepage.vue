@@ -1,10 +1,10 @@
 <template>
-    <div class="w-full h-screen">
+    <div class="w-full h-screen relative">
         <!-- menu bar -->
         <div class="flex flex-col py-4 w-full h-auto border-b xl:px-[0px] px-[20px]">
             <div class="flex flex-row justify-between mx-auto max-w-[1200px] min-w-[300px] w-full">
                 <h1 class="text-2xl font-black">SIGIRI Price</h1>
-                <button class="border px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer">Members</button>
+                <button class="border px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer" @click="siteData.membersPopup = true">Members</button>
             </div>
         </div>
         <!-- Introduction part -->
@@ -58,7 +58,7 @@
                         <button class="border px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer">Search</button>
                     </div>
                     <!-- product view -->
-                    <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50">
+                    <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50 relative">
                         <div class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white"></div>
                         <div class="flex flex-col gap-4 sm:w-[50%] w-full">
                             <h3 class="text-2xl font-medium">Title of the product</h3>
@@ -76,6 +76,9 @@
                                 <button class="border-2 border-neutral-300 px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer w-full">Track me</button>
                             </div>
                         </div>
+                        <div class="flex flex-col justify-center items-center w-full h-full border-1 absolute top-0 left-0 right-0 bottom-0 bg-white-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
+                            <p class="bg-black text-white px-10 py-2 rounded-full">No Product</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,13 +89,16 @@
                 <p class="font-light font-mono">Develop by <span class="font-black text-gray-400"><a href="https://gamage.dev" target="_blank">Gamage.dev</a></span></p>
             </div>
         </div>
+        <Members></Members>
     </div>
 </template>
 
 <script setup>
 import subheading from "@/components/parts/subheading.vue"
+import Members from "@/components/popups/members.vue";
 import { siteStore } from "@/stores/sitedata";
 import { ref } from "vue";
+
 const siteData = siteStore()
 
 const showQandA = ref([]) //unfolded questions index number list
