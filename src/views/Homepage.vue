@@ -90,12 +90,14 @@
             </div>
         </div>
         <Members></Members>
+        <Passwordreset></Passwordreset>
     </div>
 </template>
 
 <script setup>
 import subheading from "@/components/parts/subheading.vue"
 import Members from "@/components/popups/members.vue";
+import Passwordreset from "@/components/popups/passwordreset.vue";
 import { siteStore } from "@/stores/sitedata";
 import { ref } from "vue";
 

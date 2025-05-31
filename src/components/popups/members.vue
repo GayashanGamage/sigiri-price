@@ -14,7 +14,7 @@
                     <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email">
                     <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password">
                     <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2">Login</button>
-                    <p class="text-xs self-end hover:underline hover:cursor-pointer">Foget password ?</p>
+                    <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="sitestore.membersPopup = false, sitestore.passwordReset = true">Foget password ?</p>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
                         <p class="">Credencials are not match</p>

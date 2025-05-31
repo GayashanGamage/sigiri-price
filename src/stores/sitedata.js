@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 export const siteStore = defineStore('siteStore', () => {
     const membersPopup = ref(false)
+    const passwordReset = ref(false)
     const signintoggle = ref(true) // true menan signin
     const qanda = [
         {
@@ -58,5 +59,5 @@ export const siteStore = defineStore('siteStore', () => {
         }
     ]   
 
-  return { qanda, howThisWork, membersPopup, signintoggle } 
+  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset } 
 })
