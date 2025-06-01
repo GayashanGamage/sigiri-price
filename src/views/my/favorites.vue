@@ -1,0 +1,76 @@
+<template>
+    <div class="">
+        <div class="overflow-auto sm:shadow shadow-none rounded-md">
+        <table class="w-full border-collapse">
+            <thead class="sm:table-header-group hidden bg-gray-100">
+                <tr class="text-left">
+                    <th class="max-w-[500px] min-w-[200px] w-[500px] pl-4 py-2">Name</th>
+                    <th class="max-w-[300px] min-w-[200px] w-[200px]">Product code</th>
+                    <th class="min-w-[130px] w-[150px]">Current price</th>
+                    <th class="min-w-[130px] w-[150px]">My price</th>
+                    <th class="min-w-[130px] w-[300px]"></th>
+                </tr>
+            </thead>
+            <tbody class="sm:table-row-group flex flex-col gap-4">
+                <tr v-if="fakeTable.length == 0">
+                    <td class="text-center py-4" colspan="5"><span class="bg-red-500 text-white px-10 py-1 rounded-full shadow-sm shadow-red-500">Still you not add any item</span></td>
+                </tr>
+                <tr class="sm:table-row flex flex-col border-b border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="item in fakeTable">
+                    <td class="sm:table-cell sm:pl-4 flex flex-row"><span class="sm:hidden block font-bold mr-18">Name :</span>{{ item.name }}</td>
+                    <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Product code :</span>{{ item.product_code }}</td>
+                    <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.current_price }}</td>
+                    <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-13">My price :</span>{{ item.my_price }}</td>
+                    <td class="sm:flex sm:flex-row sm:items-center sm:w-fit grid grid-cols-3 w-full gap-2 py-4 pr-2">
+                        <button class="border px-4 rounded-sm hover:border-black hover:bg-black hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap">New price</button>
+                        <button class="border px-4 rounded-sm hover:border-black hover:bg-black hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase">View</button>
+                        <button class="border px-4 rounded-sm hover:border-red-500 hover:bg-red-500 hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const fakeTable = ref([
+    {
+        id : '001',
+        name : 'samsung gallaxy s2',
+        product_code : 'EIU002',
+        current_price : '1000.00',
+        my_price : '800.00'
+    },
+    {
+        id : '001',
+        name : 'samsung gallaxy s2',
+        product_code : 'EIU002',
+        current_price : '1000.00',
+        my_price : '800.00'
+    },
+    {
+        id : '001',
+        name : 'samsung gallaxy s2',
+        product_code : 'EIU002',
+        current_price : '1000.00',
+        my_price : '800.00'
+    },
+    {
+        id : '001',
+        name : 'samsung gallaxy s2',
+        product_code : 'EIU002',
+        current_price : '1000.00',
+        my_price : '800.00'
+    },
+    {
+        id : '001',
+        name : 'samsung gallaxy s2',
+        product_code : 'EIU002',
+        current_price : '1000.00',
+        my_price : '800.00'
+    },
+])
+
+</script>

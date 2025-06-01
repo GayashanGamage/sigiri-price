@@ -5,6 +5,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import Memberprocess from "@/views/Memberprocess.vue";
 import Homepage from "@/views/Homepage.vue";
+import My from "@/views/My.vue";
+import Favorites from "@/views/my/favorites.vue";
+import Settings from "@/views/my/settings.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +16,23 @@ const router = createRouter({
       path: "/",
       component: Homepage,
       name: "productview2",
+    },
+    {
+      path: "/my",
+      component: My,
+      name: "my",
+      children : [
+        {
+          path : 'setting',
+          component : Settings,
+          name : 'settings'
+        },
+        {
+          path : 'favorites',
+          component : Favorites,
+          name : 'favorites'
+        },
+      ]
     },
     {
       path: "/home",
