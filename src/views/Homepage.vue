@@ -9,9 +9,9 @@
                     <p class="text-center md:w-[50%] w-[90%] mx-auto xl:text-2xl md:text-xl text-lg font-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero nostrum totam impedit quam nulla temporibus numquam earum consequatur porro repellat.</p>
                     <!-- action button list -->
                     <div class="grid md:grid-cols-3 grid-cols-2 gap-6 mx-auto">
-                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-black hover:text-white hover:border-black hover:cursor-pointer" @click="directto('howthiswork')">How this work</button>
-                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-black hover:text-white hover:border-black hover:cursor-pointer" @click="directto('qanda')">Q and A</button>
-                        <button class="border px-8 py-2 rounded-sm w-full hover:bg-black hover:text-white hover:border-black hover:cursor-pointer md:col-span-1 col-span-2" @click="directto('productview')">track product</button>
+                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:cursor-pointer" @click="directto('howthiswork')">How this work</button>
+                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] hover:cursor-pointer active:bg-[var(--button-activate)] active:border-[var(--button-activate)]" @click="directto('qanda')">Q and A</button>
+                        <button class="border px-8 py-2 rounded-sm w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] hover:cursor-pointer md:col-span-1 col-span-2 active:bg-[var(--button-activate)] active:border-[var(--button-activate)]" @click="directto('productview')">track product</button>
                     </div>
                 </div>
                 <!-- How this work section -->
@@ -49,7 +49,7 @@
                     <!-- search box -->
                     <div class="flex sm:flex-row flex-col gap-4 mx-auto w-full justify-center">
                         <input type="text" class="border-2 border-neutral-300 rounded-sm h-10 focus:outline-none px-2 sm:max-w-[455px] max-w-[580px] min-w-[300px] w-full" placeholder="Product URL">
-                        <button class="border px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer">Search</button>
+                        <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:cursor-pointer">Search</button>
                     </div>
                     <!-- product view -->
                     <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50 relative">
@@ -78,7 +78,6 @@
             </div>
         </div>
         <Footer></Footer>
-        <Members></Members>
         <Passwordreset></Passwordreset>
     </div>
 </template>
@@ -87,7 +86,6 @@
 import Footer from "@/components/parts/footer.vue";
 import Menubar from "@/components/parts/menubar.vue";
 import subheading from "@/components/parts/subheading.vue"
-import Members from "@/components/popups/members.vue";
 import Passwordreset from "@/components/popups/passwordreset.vue";
 import { siteStore } from "@/stores/sitedata";
 import { ref } from "vue";

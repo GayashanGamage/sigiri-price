@@ -21,6 +21,7 @@ const router = createRouter({
       path: "/my",
       component: My,
       name: "my",
+      redirect : 'my/favorites',
       children : [
         {
           path : 'setting',

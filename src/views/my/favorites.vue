@@ -21,9 +21,9 @@
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.current_price }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-13">My price :</span>{{ item.my_price }}</td>
                     <td class="sm:flex sm:flex-row sm:items-center sm:w-fit grid grid-cols-3 w-full gap-2 py-4 pr-2">
-                        <button class="border px-4 rounded-sm hover:border-black hover:bg-black hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap">New price</button>
-                        <button class="border px-4 rounded-sm hover:border-black hover:bg-black hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase">View</button>
-                        <button class="border px-4 rounded-sm hover:border-red-500 hover:bg-red-500 hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase">Delete</button>
+                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap">New price</button>
+                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white  active:bg-[var(--button-activate)] active:border-[var(--button-activate)] text-xs sm:py-1 py-2 font-semibold uppercase">View</button>
+                        <button class="border px-4 rounded-sm hover:border-[var(--delete-button-hover)] hover:bg-[var(--delete-button-hover)] active:bg-[var(--delete-button-activate)] active:border-[var(--delete-button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase border-[var(--delete-button-hover)] text-[var(--delete-button-hover)]">Delete</button>
                     </td>
                 </tr>
             </tbody>

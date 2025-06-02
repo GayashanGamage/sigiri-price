@@ -13,7 +13,7 @@
                 <div class="flex flex-col gap-2" v-if="sitestore.signintoggle">
                     <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email">
                     <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password">
-                    <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2">Login</button>
+                    <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="login">Login</button>
                     <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="sitestore.membersPopup = false, sitestore.passwordReset = true">Foget password ?</p>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
@@ -39,6 +39,7 @@
     </div>
 </template>
 <script setup>
+import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
 import { onClickOutside } from '@vueuse/core';
 import { ref } from 'vue';
@@ -55,6 +56,11 @@ onClickOutside(membersWindow, () => {
     sitestore.signintoggle = true
     sitestore.membersPopup = false
 })
+
+const login = () => {
+    sitestore.membersPopup = false
+    router.push({name : 'my'})
+}
 
 // toggle betwen signin and singup
 const membersToggle = (action) => {

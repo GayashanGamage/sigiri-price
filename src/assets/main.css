@@ -1,4 +1,14 @@
 @import "tailwindcss";
+/* src/assets/main.css */
+
+:root {
+  --button-hover: #2e2e2e; 
+  --button-activate: #000000; 
+  --delete-button-hover: #ec473d; 
+  --delete-button-activate: #e62222; 
+}
+
+
 /* @import './base.css';
 
 #app {
