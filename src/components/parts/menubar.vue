@@ -22,7 +22,7 @@ console.log('reloanch')
 
 // open the popup according to the current page
 const openPopup = () => {
-    if(router.currentRoute._value.path == '/my/favorites' || router.currentRoute._value.path == 'my/setting'){
+    if(router.currentRoute._value.path == '/my/favorites' || router.currentRoute._value.path == '/my/setting'){
        sitedata.logoutPopup = true
     }else{
         sitedata.membersPopup = true
