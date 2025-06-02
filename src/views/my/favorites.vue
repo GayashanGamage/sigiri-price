@@ -12,16 +12,16 @@
                 </tr>
             </thead>
             <tbody class="sm:table-row-group flex flex-col gap-4">
-                <tr v-if="fakeTable.length == 0">
+                <tr v-if="productstore.lovedProducts.length == 0">
                     <td class="text-center py-4" colspan="5"><span class="bg-red-500 text-white px-10 py-1 rounded-full shadow-sm shadow-red-500">Still you not add any item</span></td>
                 </tr>
-                <tr class="sm:table-row flex flex-col border-b border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="item in fakeTable">
+                <tr class="sm:table-row flex flex-col border-b border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts">
                     <td class="sm:table-cell sm:pl-4 flex flex-row"><span class="sm:hidden block font-bold mr-18">Name :</span>{{ item.name }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Product code :</span>{{ item.product_code }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.current_price }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-13">My price :</span>{{ item.my_price }}</td>
                     <td class="sm:flex sm:flex-row sm:items-center sm:w-fit grid grid-cols-3 w-full gap-2 py-4 pr-2">
-                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap">New price</button>
+                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap" @click="changePrice(index)">New price</button>
                         <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white  active:bg-[var(--button-activate)] active:border-[var(--button-activate)] text-xs sm:py-1 py-2 font-semibold uppercase">View</button>
                         <button class="border px-4 rounded-sm hover:border-[var(--delete-button-hover)] hover:bg-[var(--delete-button-hover)] active:bg-[var(--delete-button-activate)] active:border-[var(--delete-button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase border-[var(--delete-button-hover)] text-[var(--delete-button-hover)]">Delete</button>
                     </td>
@@ -29,48 +29,65 @@
             </tbody>
         </table>
     </div>
+    <PriceChange></PriceChange>
     </div>
 </template>
 
 <script setup>
+import PriceChange from '@/components/popups/priceChange.vue';
+import { productStore } from '@/stores/product';
+import { siteStore } from '@/stores/sitedata';
 import { ref } from 'vue';
 
-const fakeTable = ref([
-    {
-        id : '001',
-        name : 'samsung gallaxy s2',
-        product_code : 'EIU002',
-        current_price : '1000.00',
-        my_price : '800.00'
-    },
-    {
-        id : '001',
-        name : 'samsung gallaxy s2',
-        product_code : 'EIU002',
-        current_price : '1000.00',
-        my_price : '800.00'
-    },
-    {
-        id : '001',
-        name : 'samsung gallaxy s2',
-        product_code : 'EIU002',
-        current_price : '1000.00',
-        my_price : '800.00'
-    },
-    {
-        id : '001',
-        name : 'samsung gallaxy s2',
-        product_code : 'EIU002',
-        current_price : '1000.00',
-        my_price : '800.00'
-    },
-    {
-        id : '001',
-        name : 'samsung gallaxy s2',
-        product_code : 'EIU002',
-        current_price : '1000.00',
-        my_price : '800.00'
-    },
-])
+// site related states store
+const sitedata = siteStore()
+// product related states store
+const productstore = productStore()
+
+const changePrice = (selectedIndex) => {
+    // store selected item in a caching way to end of the process
+    productstore.selectedProduct = productstore.lovedProducts[selectedIndex]
+    productstore.selectedProductIndex = selectedIndex
+    // close price change popup window
+    sitedata.priceChangePopup = true
+}
+
+// const fakeTable = ref([
+//     {
+//         id : '001',
+//         name : 'samsung gallaxy s2',
+//         product_code : 'EIU002',
+//         current_price : '1000.00',
+//         my_price : '800.00'
+//     },
+//     {
+//         id : '001',
+//         name : 'samsung gallaxy s2',
+//         product_code : 'EIU002',
+//         current_price : '1000.00',
+//         my_price : '800.00'
+//     },
+//     {
+//         id : '001',
+//         name : 'samsung gallaxy s2',
+//         product_code : 'EIU002',
+//         current_price : '1000.00',
+//         my_price : '800.00'
+//     },
+//     {
+//         id : '001',
+//         name : 'samsung gallaxy s2',
+//         product_code : 'EIU002',
+//         current_price : '1000.00',
+//         my_price : '800.00'
+//     },
+//     {
+//         id : '001',
+//         name : 'samsung gallaxy s2',
+//         product_code : 'EIU002',
+//         current_price : '1000.00',
+//         my_price : '800.00'
+//     },
+// ])
 
 </script>

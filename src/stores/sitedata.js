@@ -5,6 +5,7 @@ export const siteStore = defineStore('siteStore', () => {
     const membersPopup = ref(false)
     const passwordReset = ref(false)
     const logoutPopup = ref(false)
+    const priceChangePopup = ref(false)
     const signintoggle = ref(true) // true menan signin
     const qanda = [
         {
@@ -60,5 +61,5 @@ export const siteStore = defineStore('siteStore', () => {
         }
     ]   
 
-  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup } 
+  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup, priceChangePopup } 
 })
