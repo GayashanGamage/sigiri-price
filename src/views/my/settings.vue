@@ -5,15 +5,15 @@
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row">
                     <p class="text-gray-400 font-normal mr-4">First name : </p>
-                    <p class="text-gray-400 font-bold">Gayashan Gamage</p>
+                    <p class="text-gray-400 font-bold">{{ userstore.personalData.name }}</p>
                 </div>
                 <div class="flex flex-row overflow-hidden">
                     <p class="text-gray-400 font-normal mr-4">Email </p>
-                    <p class="text-gray-400 font-bold">gayashan.randimagamage@gmail.com</p>
+                    <p class="text-gray-400 font-bold">{{ userstore.personalData.email }}</p>
                 </div>
                 <div class="flex flex-row">
                     <p class="text-gray-400 font-normal mr-4">Account created : </p>
-                    <p class="text-gray-400 font-bold">1st of june, 2025</p>
+                    <p class="text-gray-400 font-bold">{{ userstore.personalData.created }}</p>
                 </div>
             </div>
         </div>
@@ -21,16 +21,35 @@
             <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100">
                 <h3 class="font-semibold text-xl">Freez notifications</h3>
                 <p class="text-gray-400 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium hic minima</p>
-                <button class="border-2 font-semibold text-sm py-1 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white active:bg-[var(--button-activate)] active:border-[var(--button-activate)] active:text-white">Freez notifications</button>
+                <button class="border-2 font-semibold text-sm py-2 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white active:bg-[var(--button-activate)] active:border-[var(--button-activate)] active:text-white" v-if="userstore.personalData.notificationFreez == false" @click="notificationFreez">Freez notifications</button>
+                <button class="border-2 font-semibold text-sm py-2 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white bg-[var(--button-activate)] border-[var(--button-activate)] text-white" v-if="userstore.personalData.notificationFreez == true" @click="notificationFreez">UnFreez notifications</button>
             </div>
             <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100">
                 <h3 class="font-semibold text-xl">Change password</h3>
                 <p class="text-gray-400 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium hic minima</p>
-                <button class="border-2 font-semibold text-sm py-1 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white active:bg-[var(--button-activate)] active:border-[var(--button-activate)] active:text-white">Change password</button>
+                <button class="border-2 font-semibold text-sm py-2 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white active:bg-[var(--button-activate)] active:border-[var(--button-activate)] active:text-white" @click="changePassword">Change password</button>
             </div>
         </div>
+        <Passwordreset></Passwordreset>
     </div>
 </template>
 
 <script setup>
+import Passwordreset from '@/components/popups/passwordreset.vue';
+import { siteStore } from '@/stores/sitedata';
+import { userStore } from '@/stores/user';
+
+const userstore = userStore()
+const sitestore = siteStore()
+
+const notificationFreez = () => {
+    userstore.personalData.notificationFreez = !userstore.personalData.notificationFreez
+}
+
+const changePassword = () => {
+    sitestore.emailWindow = false
+    sitestore.secreateCodeWindow = true
+    sitestore.passwordReset = true
+}
+
 </script>

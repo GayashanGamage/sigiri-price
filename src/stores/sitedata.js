@@ -9,6 +9,13 @@ export const siteStore = defineStore('siteStore', () => {
     const productDeletePopup = ref(false)
     const productView = ref(false)
     const signintoggle = ref(true) // true menan signin
+
+    // password reset window related states
+    const emailWindow = ref(true)
+    const secreateCodeWindow = ref(false)
+    const passwordChange = ref(false)
+    const errormessage = ref(true)
+
     const qanda = [
         {
             q: "How to see my tracked product",
@@ -63,5 +70,5 @@ export const siteStore = defineStore('siteStore', () => {
         }
     ]   
 
-  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup, priceChangePopup, productDeletePopup, productView } 
+  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup, priceChangePopup, productDeletePopup, productView, emailWindow, secreateCodeWindow, passwordChange, errormessage } 
 })
