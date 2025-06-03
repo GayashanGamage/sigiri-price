@@ -41,8 +41,17 @@
                     </div>
                 </div>
                 <!-- tracked price -->
-                <div class="" v-if="price">
-                    <p class="">Price view</p>
+                <div class="flex flex-col gap-2" v-if="price">
+                    <div class="w-full h-[250px] border border-gray-200 rounded-sm overflow-y-auto">
+                        <div class="flex flex-row justify-between px-2 py-1" v-for="item in productstore.lovedProducts[productstore.selectedProductIndex].priceHistry">
+                            <p class="">{{ item.date }}</p>
+                            <p class="">Rs. {{ item.price }}.00</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-2">
+                        <button class="border py-1 px-3 text-sm rounded-sm hover:bg-[var(--button-hover)] hover:text-white active:text-white active:bg-[var(--button-activate)] hover:border-[var(--button-activate)] border-gray-300">Download CSV</button>
+                        <button class="border py-1 px-3 text-sm rounded-sm hover:bg-[var(--button-hover)] hover:text-white active:text-white active:bg-[var(--button-activate)] hover:border-[var(--button-activate)] border-gray-300">Download XL</button>
+                    </div>
                 </div>
                 <!-- chart -->
                 <div class="" v-if="chart">
@@ -73,7 +82,19 @@ onClickOutside(productWindow, () => {
     productstore.selectedProduct = null
     productstore.selectedProductIndex = null
     sitedata.productView = false
+
+    // set default window as product in next open
+    product.value = true
+    price.value = false
+    chart.value = false
 })
+
+const loadPriceData = () => {
+    if(!('priceHistry' in productstore.lovedProducts[productstore.selectedProductIndex])){
+        // call the API, get the data and append to product details
+        productstore.lovedProducts[productstore.selectedProductIndex].priceHistry = priceHistry.value
+    }
+}
 
 const ProductView = (subView) => {
 
@@ -120,6 +141,9 @@ const ProductView = (subView) => {
         chartTab.classList.replace( 'text-white','text-black')
         chartTab.classList.replace( 'bg-[var(--button-select)]','bg-white')
         chartTab.classList.replace('border-[var(--button-select)]', 'border-gray-300')
+
+        // load price data from API
+        loadPriceData()
         
     }else{
         // change visibility of tab
@@ -145,5 +169,65 @@ const ProductView = (subView) => {
         
     }
 }
+
+const priceHistry = ref([
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+    {
+        'date' : '2-3-2025',
+        'price': '8000'
+    },
+])
+
 
 </script>
