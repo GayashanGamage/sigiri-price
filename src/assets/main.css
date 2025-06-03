@@ -4,6 +4,7 @@
 :root {
   --button-hover: #2e2e2e; 
   --button-activate: #000000; 
+  --button-select: #000000; 
   --delete-button-hover: #ec473d; 
   --delete-button-activate: #e62222; 
 }

@@ -12,7 +12,8 @@ export const productStore = defineStore('productStore', () => {
           product_code : 'EIU002',
           current_price : '1000.00',
           my_price : '800.00',
-          added_date : '2-3-2025'
+          added_date : '2-3-2025',
+          availability : true
         },
         {
           id : '001',
@@ -20,7 +21,8 @@ export const productStore = defineStore('productStore', () => {
           product_code : 'EIU002',
           current_price : '1000.00',
           my_price : '800.00',
-          added_date : '2-3-2025'
+          added_date : '2-3-2025',
+          availability : false
         },
         {
           id : '001',
@@ -28,7 +30,8 @@ export const productStore = defineStore('productStore', () => {
           product_code : 'EIU002',
           current_price : '1000.00',
           my_price : '800.00',
-          added_date : '2-3-2025'
+          added_date : '2-3-2025',
+          availability : true
         },
         {
           id : '001',
@@ -36,7 +39,8 @@ export const productStore = defineStore('productStore', () => {
           product_code : 'EIU002',
           current_price : '1000.00',
           my_price : '800.00',
-          added_date : '2-3-2025'
+          added_date : '2-3-2025',
+          availability : true
         },
         {
           id : '001',
@@ -44,7 +48,8 @@ export const productStore = defineStore('productStore', () => {
           product_code : 'EIU002',
           current_price : '1000.00',
           my_price : '800.00',
-          added_date : '2-3-2025'
+          added_date : '2-3-2025',
+          availability : false
       },
   ])
 

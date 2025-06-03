@@ -22,7 +22,7 @@
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-13">My price :</span>{{ item.my_price }}</td>
                     <td class="sm:flex sm:flex-row sm:items-center sm:w-fit grid grid-cols-3 w-full gap-2 py-4 pr-2">
                         <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase whitespace-nowrap" @click="changePrice(index)">New price</button>
-                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white  active:bg-[var(--button-activate)] active:border-[var(--button-activate)] text-xs sm:py-1 py-2 font-semibold uppercase">View</button>
+                        <button class="border px-4 rounded-sm hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white  active:bg-[var(--button-activate)] active:border-[var(--button-activate)] text-xs sm:py-1 py-2 font-semibold uppercase" @click="productView(index)">View</button>
                         <button class="border px-4 rounded-sm hover:border-[var(--delete-button-hover)] hover:bg-[var(--delete-button-hover)] active:bg-[var(--delete-button-activate)] active:border-[var(--delete-button-activate)] hover:text-white text-xs sm:py-1 py-2 font-semibold uppercase border-[var(--delete-button-hover)] text-[var(--delete-button-hover)]" @click="productDelete(index)">Delete</button>
                     </td>
                 </tr>
@@ -31,12 +31,14 @@
     </div>
     <PriceChange></PriceChange>
     <DeleteProduct></DeleteProduct>
+    <ProductView></ProductView>
     </div>
 </template>
 
 <script setup>
 import DeleteProduct from '@/components/popups/deleteProduct.vue';
 import PriceChange from '@/components/popups/priceChange.vue';
+import ProductView from '@/components/popups/productView.vue';
 import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
 import { ref } from 'vue';
@@ -58,6 +60,12 @@ const productDelete = (selectedIndex) => {
     productstore.selectedProductIndex = selectedIndex
     productstore.selectedProduct = productstore.lovedProducts[selectedIndex]
     sitedata.productDeletePopup = true
+}
+
+const productView = (selectedIndex) => {
+    productstore.selectedProductIndex = selectedIndex
+    productstore.selectedProduct = productstore.lovedProducts[selectedIndex]
+    sitedata.productView = true
 }
 
 // const fakeTable = ref([
