@@ -47,6 +47,7 @@ const notificationFreez = () => {
 }
 
 const changePassword = () => {
+    sitestore.settingPagePasswordReset = true
     sitestore.emailWindow = false
     sitestore.secreateCodeWindow = true
     sitestore.passwordReset = true

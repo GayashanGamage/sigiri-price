@@ -15,6 +15,7 @@ export const siteStore = defineStore('siteStore', () => {
     const secreateCodeWindow = ref(false)
     const passwordChange = ref(false)
     const errormessage = ref(true)
+    const settingPagePasswordReset = ref(false)
 
     const qanda = [
         {
@@ -70,5 +71,5 @@ export const siteStore = defineStore('siteStore', () => {
         }
     ]   
 
-  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup, priceChangePopup, productDeletePopup, productView, emailWindow, secreateCodeWindow, passwordChange, errormessage } 
+  return { qanda, howThisWork, membersPopup, signintoggle, passwordReset, logoutPopup, priceChangePopup, productDeletePopup, productView, emailWindow, secreateCodeWindow, passwordChange, errormessage, settingPagePasswordReset } 
 })

@@ -97,10 +97,17 @@ const verifyCode = () => {
 
 // all password confirmation validation hear
 const confirmPassword = () => {
-    sitestore.passwordReset = false
-    sitestore.membersPopup = true
-    sitestore.errormessage = false
+    if(sitestore.settingPagePasswordReset == true){
+        sitestore.passwordReset = false
+        sitestore.errormessage = false
+        sitestore.settingPagePasswordReset = false
+    }else{
+        sitestore.passwordReset = false
+        sitestore.membersPopup = true
+        sitestore.errormessage = false
+    }
     passwrodChangeRefReset()
+
 }
 
 // close password change windows 
