@@ -8,6 +8,7 @@ import Homepage from "@/views/Homepage.vue";
 import My from "@/views/My.vue";
 import Favorites from "@/views/my/favorites.vue";
 import Settings from "@/views/my/settings.vue";
+import About from "@/views/about.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,11 @@ const router = createRouter({
       path: "/",
       component: Homepage,
       name: "productview2",
+    },
+    {
+      path: "/about",
+      component: About,
+      name: "about",
     },
     {
       path: "/my",

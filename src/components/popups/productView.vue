@@ -55,7 +55,9 @@
                 </div>
                 <!-- chart -->
                 <div class="" v-if="chart">
-                    <p class="">Chart view</p>
+                    <div class="w-full h-[300px] " id="graphview">
+                        <canvas ref="chartCanvas" height="350" width="450"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,6 +68,7 @@
 import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
 import { onClickOutside } from '@vueuse/core';
+import { Chart } from 'chart.js/auto';
 import { ref } from 'vue';
 
 // pinia stors 
@@ -94,6 +97,25 @@ const loadPriceData = () => {
         // call the API, get the data and append to product details
         productstore.lovedProducts[productstore.selectedProductIndex].priceHistry = priceHistry.value
     }
+}
+
+
+const chartCanvas = ref(null)
+
+const loadChart = () => {
+    new Chart(chartCanvas.value, {
+        type: 'line',
+        data: {
+            labels: [2,3,54,5,20],
+            datasets: [{
+                label: [10, 20, 30, 40, 50],
+                data: [65, 59, 80, 81, 56],
+                fill: false,
+                borderColor: 'rgb(0,0,0)',
+                tension: 0.4
+            }]
+            }
+    })
 }
 
 const ProductView = (subView) => {
@@ -167,6 +189,10 @@ const ProductView = (subView) => {
         chartTab.classList.replace('bg-white', 'bg-[var(--button-select)]')
         chartTab.classList.replace('border-gray-300', 'border-[var(--button-select)]')
         
+        // generate linechart after create the dom element - canvas element
+        setTimeout(() => {
+            loadChart()
+        }, 200)
     }
 }
 
