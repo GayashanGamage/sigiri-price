@@ -15,7 +15,7 @@
                 <tr v-if="productstore.lovedProducts.length == 0">
                     <td class="text-center py-4" colspan="5"><span class="bg-red-500 text-white px-10 py-1 rounded-full shadow-sm shadow-red-500">Still you not add any item</span></td>
                 </tr>
-                <tr class="sm:table-row flex flex-col border-b border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts">
+                <tr class="sm:table-row flex flex-col sm:border-1 sm:border-b sm:border-gray-200 border-2 border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-50 hover:bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts">
                     <td class="sm:table-cell sm:pl-4 flex flex-row"><span class="sm:hidden block font-bold mr-18">Name :</span>{{ item.name }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Product code :</span>{{ item.product_code }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.current_price }}</td>

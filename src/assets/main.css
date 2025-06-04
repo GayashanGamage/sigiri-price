@@ -2,11 +2,25 @@
 /* src/assets/main.css */
 
 :root {
+  /* button styling */
+  --button-one : #000000;
+  --button-two : #2e2e2e;
+  --button-three : #363636;
+
+  /* black button forword method */
   --button-hover: #2e2e2e; 
   --button-activate: #000000; 
   --button-select: #000000; 
+  
+  /* red button forword method */
   --delete-button-hover: #ec473d; 
   --delete-button-activate: #e62222; 
+  
+  /* background color */
+  --background-color-zero : #fefcef;
+  --background-color-one : #fdf8df;
+  --background-color-two : #dcd8c2;
+  --background-color3-three : #e1ddc7;
 }
 
 

@@ -1,29 +1,30 @@
 <template>
-    <div class="w-full h-screen relative">
+    <div class="w-full h-screen relative bg-[var(--background-color-one)]">
         <Menubar></Menubar>
         <!-- Introduction part -->
         <div class="flex flex-col w-full xl:px-[0px] px-[20px]">
             <div class="flex flex-col gap-[40px] justify-center mx-auto max-w-[1200px] min-w-[300px] w-full">
                 <div class="flex flex-col gap-[80px] max-h-[1000px] min-h-[calc(100vh-70px)] justify-center">
-                    <h1 class="font-black xl:text-6xl sm:text-5xl text-4xl text-center">Allert on price<br>of your<br>next loved product</h1>
-                    <p class="text-center md:w-[50%] w-[90%] mx-auto xl:text-2xl md:text-xl text-lg font-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero nostrum totam impedit quam nulla temporibus numquam earum consequatur porro repellat.</p>
+                    <h1 class="font-black xl:text-6xl sm:text-5xl text-4xl text-center text-shadow-sm">Allert on price<br>of your<br>next loved product</h1>
+                    <!-- <p class="text-center md:w-[50%] w-[90%] mx-auto xl:text-2xl md:text-xl text-lg font-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero nostrum totam impedit quam nulla temporibus numquam earum consequatur porro repellat.</p> -->
+                    <p class="text-center md:w-[50%] w-[90%] mx-auto xl:text-2xl md:text-xl text-lg font-light">Are you tired on finding  cheep price for your loved product on online shopping ? we automate this process for you. once the tracking product match your price you will get notification.</p>
                     <!-- action button list -->
-                    <div class="grid md:grid-cols-3 grid-cols-2 gap-6 mx-auto">
-                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:cursor-pointer" @click="directto('howthiswork')">How this work</button>
-                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] hover:cursor-pointer active:bg-[var(--button-activate)] active:border-[var(--button-activate)]" @click="directto('qanda')">Q and A</button>
-                        <button class="border px-8 py-2 rounded-sm w-full hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] hover:cursor-pointer md:col-span-1 col-span-2 active:bg-[var(--button-activate)] active:border-[var(--button-activate)]" @click="directto('productview')">track product</button>
+                    <div class="grid md:grid-cols-3 grid-cols-2 gap-2 mx-auto">
+                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer" @click="directto('howthiswork')">How this work</button>
+                        <button class="border px-8 py-2 rounded-sm max-w-[200px] min-w-[100px] w-full hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] hover:cursor-pointer active:bg-[var(--button-two)] active:border-[var(--button-two)]" @click="directto('qanda')">Q and A</button>
+                        <button class="border px-8 py-2 rounded-sm w-full hover:cursor-pointer md:col-span-1 col-span-2 bg-[var(--button-one)] text-white border-[var(--button-one)] hover:bg-[var(--button-two)] active:bg-[var(--button-three)]" @click="directto('productview')">track product</button>
                     </div>
                 </div>
                 <!-- How this work section -->
                 <div class="flex flex-col gap-10 py-10" id="howthiswork">
                     <subheading>How this works ?</subheading>
-                    <div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-                        <div class="flex flex-col gap-4 text-center border-2 border-gray-300 p-6 rounded-md hover:bg-gray-200 hover:border-gray-200 hover:shadow-lg hover:shadow-neutral-100" v-for="(item, index) in siteData.howThisWork">
+                    <div class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-6">
+                        <div class="flex flex-col gap-4 text-center border-1 border-[var(--background-color-two)] bg-[var(--background-color-zero)] p-6 rounded-md hover:bg-[var(--background-color-one)] hover:border-gray-200" v-for="(item, index) in siteData.howThisWork">
                             <div class="flex flex-row gap-4 justify-center items-center">
                                 <h4 class="font-black uppercase text-3xl"><i :class="item.step"></i></h4>
                                 <h4 class="font-bold uppercase text-lg"> Step</h4>
                             </div>
-                            <p class="text-lg font-medium">{{ item.description }}</p>
+                            <p class="text-md font-normal">{{ item.description }}</p>
                         </div>
                     </div>
                 </div>  
@@ -39,7 +40,7 @@
                                 <span class="text-2xl hidden" :id="'show' + index">-</span>
                             </div>
                             <!-- answare -->
-                            <p class="md:mx-10 mx-2 p-4 rounded-sm font-light hidden bg-gray-100 text-lg" :id="'answare' + index">{{ item.a }}</p>
+                            <p class="md:mx-10 mx-2 p-4 rounded-sm font-normal hidden bg-[var(--background-color-one)] text-lg" :id="'answare' + index">{{ item.a }}</p>
                         </div>
                     </div>
                 </div>
@@ -49,7 +50,7 @@
                     <!-- search box -->
                     <div class="flex sm:flex-row flex-col gap-4 mx-auto w-full justify-center">
                         <input type="text" class="border-2 border-neutral-300 rounded-sm h-10 focus:outline-none px-2 sm:max-w-[455px] max-w-[580px] min-w-[300px] w-full" placeholder="Product URL">
-                        <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] active:bg-[var(--button-activate)] active:border-[var(--button-activate)] hover:cursor-pointer">Search</button>
+                        <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer">Search</button>
                     </div>
                     <!-- product view -->
                     <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50 relative">
