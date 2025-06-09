@@ -11,26 +11,26 @@
             <div class="h-auto">
                 <!-- signIn content -->
                 <div class="flex flex-col gap-2" v-if="sitestore.signintoggle">
-                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email">
-                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password">
+                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email" v-model="userstore.userData.email">
+                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password" v-model="userstore.userData.password">
                     <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="login">Login</button>
                     <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="sitestore.membersPopup = false, sitestore.passwordReset = true">Foget password ?</p>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
-                        <p class="">Credencials are not match</p>
+                        <p class="" id="errorText"></p>
                         <i class="fi fi-rr-circle-xmark text-xl hover:text-black " @click="errormessage = !errormessage"></i>
                     </div>
                 </div>
                 <!-- signUp content -->
                 <div class="flex flex-col gap-2" v-if="!sitestore.signintoggle">
-                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="First name">
-                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email">
-                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Password">
-                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Confirm password">
-                    <button class="border hover:bg-black hover:text-white hover:border-black rounded-sm py-2">Register</button>
+                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="First name" v-model="userstore.userData.name">
+                    <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email" v-model="userstore.userData.email">
+                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Password" v-model="userstore.userData.password">
+                    <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Confirm password" v-model="userstore.userData.passwordTwo">
+                    <button class="border hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="registerUser">Register</button>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
-                        <p class="">Credencials are not match</p>
+                        <p class="max-w-[240px]" id="errorText"></p>
                         <i class="fi fi-rr-circle-xmark text-xl hover:text-black " @click="errormessage = !errormessage"></i>
                     </div>
                 </div>
@@ -41,14 +41,17 @@
 <script setup>
 import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
+import { userStore } from '@/stores/user';
 import { onClickOutside } from '@vueuse/core';
-import { ref } from 'vue';
+import axios from 'axios';
+import { onBeforeMount, ref } from 'vue';
+
 
 const sitestore = siteStore()
+const userstore = userStore()
 
 // const signintoggle = ref(true) // true menan signin
-const errormessage = ref(true)
-
+const errormessage = ref(false)
 const membersWindow = ref(null) //reffer to members content window for click-outside-close
 
 // close the members window when click the outside of the members shadow area
@@ -57,10 +60,44 @@ onClickOutside(membersWindow, () => {
     sitestore.membersPopup = false
 })
 
-const login = () => {
-    sitestore.membersPopup = false
-    router.push({name : 'my'})
+const showErrorMessage = (errorText) => {
+    errormessage.value = true
+    setTimeout(() => {
+        document.querySelector('#errorText').innerHTML = errorText
+    }, 100)
 }
+
+const login = () => {
+    // call API endpoint
+    axios.post(`${import.meta.env.VITE_site}/auth/login`, userstore.userData)
+        .then(function(response){
+            sitestore.membersPopup = false
+            router.push({name : 'my'})
+        })
+        .catch(function(error){
+            if(error.status == 404){
+                // show error code
+                showErrorMessage("invalied credentials!")
+            }
+        })
+}
+
+const initiateNewUserData = () => {
+    userstore.userData = {
+            "email": "",
+            "password": "",
+            "passwordTwo": "",
+            "firstName": ""
+            }
+}
+
+const initiateLoginData = () => {
+    userstore.userData = {
+        'email' : "",
+        'password' : ""
+    }
+}
+
 
 // toggle betwen signin and singup
 const membersToggle = (action) => {
@@ -68,6 +105,7 @@ const membersToggle = (action) => {
     const signupButton = document.querySelector('#signupButton')
 
     if(action === 'singin'){
+        initiateLoginData()
         sitestore.signintoggle = true
         // signin button styles
         signinButton.classList.replace('text-black', 'text-white')
@@ -78,6 +116,8 @@ const membersToggle = (action) => {
         signupButton.classList.replace( 'bg-black','bg-white')
         signupButton.classList.replace( 'border-black','border-gray-300')
     }else if(action === 'signup'){
+        initiateNewUserData() //this is for create new user's data blueprint
+
         sitestore.signintoggle = false
         // signin button styles
         signinButton.classList.replace('text-white', 'text-black')
@@ -91,5 +131,35 @@ const membersToggle = (action) => {
     // when toggle between signin and signup close message close automatically
     // errormessage.value = false
 }
+
+const registerUser = () => {
+    // validate passwords are same
+    if(userstore.userData.password != userstore.userData.passwordTwo){
+        showErrorMessage("Passwords are not match")
+        return
+    }else if(userstore.userData.password.length < 6){
+        showErrorMessage("Minimum length of the password is 6")
+        return
+    }else{
+        // call to api
+        const userDataCopy = { ...userstore.userData} //create shallow coppy of the userData
+        delete userDataCopy.passwordTwo //remove coppy of the password 
+        axios.post(`${import.meta.env.VITE_site}/auth/create-user`, userstore.userData)
+            .then(function(response){
+                sitestore.signintoggle = true //change in to loging screan
+                initiateNewUserData() //reset new user data
+            })
+            .catch(function(error){
+                if(error.status !== 200){
+                    initiateNewUserData()
+                    showErrorMessage("try again latter ! ")
+                }
+            })
+    }
+}
+
+onBeforeMount(() => {
+    initiateLoginData()
+})
 
 </script>

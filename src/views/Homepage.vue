@@ -80,12 +80,14 @@
         </div>
         <Footer></Footer>
         <Passwordreset></Passwordreset>
+        <NotificationMessage></NotificationMessage>
     </div>
 </template>
 
 <script setup>
 import Footer from "@/components/parts/footer.vue";
 import Menubar from "@/components/parts/menubar.vue";
+import NotificationMessage from "@/components/parts/notificationMessage.vue";
 import subheading from "@/components/parts/subheading.vue"
 import Passwordreset from "@/components/popups/passwordreset.vue";
 import { siteStore } from "@/stores/sitedata";

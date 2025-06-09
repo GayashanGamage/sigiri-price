@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue';
 
 export const userStore = defineStore('userStore', () => {
+    const userData = ref()
     const personalData = {
         name : 'Gayashan Gamage',
         email : 'gayashan.randimagamage@gmail.com',
@@ -9,5 +10,5 @@ export const userStore = defineStore('userStore', () => {
         notificationFreez : true
     }
 
-    return { personalData } 
+    return { personalData, userData } 
 })
