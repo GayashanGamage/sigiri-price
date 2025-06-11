@@ -73,18 +73,24 @@ const resetUserData = () => {
 }
 
 const login = () => {
-    // call API endpoint
-    axios.post(`${import.meta.env.VITE_site}/auth/login`, userstore.userData)
-        .then(function(response){
-            sitestore.membersPopup = false
-            router.push({name : 'my'})
-        })
-        .catch(function(error){
-            if(error.status == 404){
-                // show error code
-                showErrorMessage("invalied credentials!")
-            }
-        })
+    // validate all inputes enter or not
+    if(userstore.userData.email.length == 0 || userstore.userData.password.length == 0){
+        showErrorMessage("Enter valied email & password")
+    }else{
+        // call API endpoint
+        axios.post(`${import.meta.env.VITE_site}/auth/login`, userstore.userData)
+            .then(function(response){
+                userstore.storeToken(response.data.token)
+                sitestore.membersPopup = false
+                router.push({name : 'my'})
+            })
+            .catch(function(error){
+                if(error.status == 404){
+                    // show error code
+                    showErrorMessage("invalied credentials!")
+                }
+            })
+    }
 }
 
 const initiateNewUserData = () => {

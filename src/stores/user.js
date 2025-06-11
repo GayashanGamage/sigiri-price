@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 export const userStore = defineStore('userStore', () => {
     const userData = ref()
+    const token = ref(null)
     const personalData = {
         name : 'Gayashan Gamage',
         email : 'gayashan.randimagamage@gmail.com',
@@ -10,5 +11,22 @@ export const userStore = defineStore('userStore', () => {
         notificationFreez : true
     }
 
-    return { personalData, userData } 
+    // functions ------------------------------------------------------
+    const storeToken = (tokenkey) => {
+        token.value = tokenkey
+        localStorage.setItem('token', tokenkey)
+    }
+
+    const restoreToken = () => {
+        if(token.value == null){
+            token.value = localStorage.getItem('token')
+        }
+        if(token.value == null){
+            return false
+        }else{
+            return true
+        }
+    }
+
+    return { personalData, userData, token, storeToken, restoreToken } 
 })
