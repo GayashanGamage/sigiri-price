@@ -10,7 +10,7 @@
             </div>
             <!-- body section -->
             <div class="flex flex-col gap-2">
-                <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email">
+                <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email" v-model="userstore.userData.email">
                 <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="sendVerification">Send verification code</button>
             </div>
             <!-- footer section -->
@@ -20,7 +20,7 @@
             </div>
             <!-- error messages -->
             <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="sitestore.errormessage"> 
-                <p class="">Credencials are not match</p>
+                <p class="" id="errorMessege"></p>
                 <i class="fi fi-rr-circle-xmark text-xl hover:text-black " @click="sitestore.errormessage = !sitestore.errormessage"></i>
             </div>
         </div>
@@ -37,12 +37,12 @@
             </div>
             <!-- body section -->
             <div class="flex flex-col gap-2">
-                <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="0 0 0 0" maxlength="4"> 
+                <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="0 0 0 0" maxlength="4" v-model="userstore.userData.code"> 
                 <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="verifyCode">Change password</button>
             </div>
             <!-- error messages -->
             <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="sitestore.errormessage"> 
-                <p class="">Credencials are not match</p>
+                <p class="" id="errorMessege"></p>
                 <i class="fi fi-rr-circle-xmark text-xl hover:text-black " @click="sitestore.errormessage = !sitestore.errormessage"></i>
             </div>
         </div>
@@ -51,18 +51,18 @@
         <div class="flex flex-col h-auto bg-white rounded-lg p-5  max-w-[400px] min-w-[200px] w-full" v-if="sitestore.passwordChange">
             <!-- heading section -->
             <div class="flex flex-row justify-between items-center mb-6">
-                <h3 class="font-bold text-2xl">Change your password</h3>
+                <h3 class="font-bold text-2xl"></h3>
                 <i class="fi fi-rr-circle-xmark hover:cursor-pointer text-2xl" @click="closeWindow"></i>
             </div>
             <!-- body section -->
             <div class="flex flex-col gap-2">
-                <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="new password"> 
-                <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="confirm password"> 
+                <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="new password" v-model="userstore.userData.password"> 
+                <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="confirm password" v-model="userstore.userData.passwordConfirm"> 
                 <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="confirmPassword">Confirm</button>
             </div>
             <!-- error messages -->
             <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="sitestore.errormessage"> 
-                <p class="">Credencials are not match</p>
+                <p class="" id="errorMessege"></p>
                 <i class="fi fi-rr-circle-xmark text-xl hover:text-black " @click="sitestore.errormessage = !sitestore.errormessage"></i>
             </div>
         </div>
@@ -71,9 +71,13 @@
 
 <script setup>
 import { siteStore } from '@/stores/sitedata';
-import { ref } from 'vue';
+import { userStore } from '@/stores/user';
+import axios from 'axios';
+import { onBeforeUnmount, ref } from 'vue';
 const sitestore = siteStore()
+const userstore =  userStore()
 
+// -------------------------- supporting functions ---------------------------------
 // reset password change window ref values
 const passwrodChangeRefReset = () => {
     sitestore.emailWindow = true
@@ -81,40 +85,100 @@ const passwrodChangeRefReset = () => {
     sitestore.passwordChange = false
 }
 
-// all email validations hear
-const sendVerification = () => {
-    sitestore.emailWindow = false
-    sitestore.secreateCodeWindow = true
-    sitestore.errormessage = false
-}
-
-// all verification code validation here
-const verifyCode = () => {
-    sitestore.secreateCodeWindow = false
-    sitestore.passwordChange = true
-    sitestore.errormessage = false
-}
-
-// all password confirmation validation hear
-const confirmPassword = () => {
-    if(sitestore.settingPagePasswordReset == true){
-        sitestore.passwordReset = false
-        sitestore.errormessage = false
-        sitestore.settingPagePasswordReset = false
-    }else{
-        sitestore.passwordReset = false
-        sitestore.membersPopup = true
-        sitestore.errormessage = false
-    }
-    passwrodChangeRefReset()
-
+const showErrorMessage = (messege) => {
+    sitestore.errormessage = true
+    setTimeout(() => {
+        document.querySelector('#errorMessege').textContent = messege
+    }, 100)
 }
 
 // close password change windows 
 const closeWindow = () => {
     sitestore.passwordReset = false
     sitestore.membersPopup = false
+    userstore.userData = null
     passwrodChangeRefReset()
+}
+
+// ----------------------- API calls ---------------------------------------
+// send code to provided email
+const sendVerification = () => {
+    // check if there any avalues in email section
+    console.log(userstore.userData.email)
+    if(userstore.userData.email.length > 0){
+        // send API request
+        axios.get(`${import.meta.env.VITE_site}/auth/sendverification`, { params : {'email' : userstore.userData.email}})
+        .then((success) => {
+            sitestore.emailWindow = false
+            sitestore.secreateCodeWindow = true
+            userstore.userData['code'] = undefined
+        })
+        .catch((error) => {
+            showErrorMessage('Invalied email address ')
+            userstore.userData['email'] = ''
+        })
+    }else{
+        showErrorMessage('Enter email address ')
+    }
+}
+
+// verify the code that send thrue email
+const verifyCode = () => {
+    // validate data type of the input
+    if(!isNaN(userstore.userData.code)){
+        console.log(typeof(parseInt(userstore.userData.code)), userstore.userData.email)
+        axios.post(`${import.meta.env.VITE_site}/auth/emailVerification`, {
+            email : userstore.userData.email,
+            code : parseInt(userstore.userData.code)
+        })
+        .then((success) => {
+            userstore.userData['password'] = ""
+            userstore.userData['passwordConfirm'] = ""
+            delete userstore.userData['code']
+
+            sitestore.secreateCodeWindow = false
+            sitestore.passwordChange = true
+            sitestore.errormessage = false
+            sitestore.errormessage = false
+            
+        })
+        .catch((error) => {
+            showErrorMessage("Incorrect code ")
+        })
+    }else{
+        showErrorMessage("Enter valied code - only numbers ")
+    }
+}
+
+// change password
+const confirmPassword = () => {
+    if(sitestore.settingPagePasswordReset == false){
+        // check the password match or not
+        if(userstore.userData.password != userstore.userData.passwordConfirm){
+            showErrorMessage("passwords not match")
+        }else if(userstore.userData.password.length <= 6){
+            showErrorMessage("Enter more than 6 charactors")
+        }else{
+            axios.patch(`${import.meta.env.VITE_site}/auth/passwordChange`, {
+                email : userstore.userData.email,
+                password : userstore.userData.password
+            })
+            .then((success) => {
+                closeWindow()
+                userstore.userData = {
+                    'email' : '',
+                    'password' : ''
+                }
+                sitestore.passwordReset = false
+                sitestore.membersPopup = true
+            })
+            .catch((error) => {
+                showErrorMessage("something went wrong. try again latter ")
+            })
+        }
+    }else if(sitestore.settingPagePasswordReset == true){
+        // this is for close password reset window in setting page-close action
+    }
 }
 
 </script>

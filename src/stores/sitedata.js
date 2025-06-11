@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 export const siteStore = defineStore("siteStore", () => {
   const membersPopup = ref(false); //toggle in members popup window
@@ -11,10 +11,10 @@ export const siteStore = defineStore("siteStore", () => {
   const signintoggle = ref(true); // true menan signin
 
   // password reset window related states
-  const emailWindow = ref(true);
+  const emailWindow = ref(false);
   const secreateCodeWindow = ref(false);
   const passwordChange = ref(false);
-  const errormessage = ref(true);
+  const errormessage = ref(false);
   const settingPagePasswordReset = ref(false);
 
   // notification related

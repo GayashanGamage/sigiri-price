@@ -16,6 +16,8 @@ import Members from "../popups/members.vue";
 import router from "@/router";
 import { onMounted } from "vue";
 import Logout from "../popups/logout.vue";
+import { userStore } from "@/stores/user";
+const userstore = userStore()
 
 const sitedata = siteStore()
 console.log('reloanch')
@@ -26,6 +28,10 @@ const openPopup = () => {
        sitedata.logoutPopup = true
     }else{
         sitedata.membersPopup = true
+        userstore.userData = {
+            "email" : '',
+            "password" : ''
+        }
     }
 }
 

@@ -14,7 +14,7 @@
                     <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email" v-model="userstore.userData.email">
                     <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password" v-model="userstore.userData.password">
                     <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="login">Login</button>
-                    <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="sitestore.membersPopup = false, sitestore.passwordReset = true">Foget password ?</p>
+                    <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="passwordResetProcess">Foget password ?</p>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
                         <p class="" id="errorText"></p>
@@ -58,6 +58,7 @@ const membersWindow = ref(null) //reffer to members content window for click-out
 onClickOutside(membersWindow, () => {
     sitestore.signintoggle = true
     sitestore.membersPopup = false
+    resetUserData()
 })
 
 const showErrorMessage = (errorText) => {
@@ -65,6 +66,10 @@ const showErrorMessage = (errorText) => {
     setTimeout(() => {
         document.querySelector('#errorText').innerHTML = errorText
     }, 100)
+}
+
+const resetUserData = () => {
+    userstore.userData = null
 }
 
 const login = () => {
@@ -158,8 +163,12 @@ const registerUser = () => {
     }
 }
 
-onBeforeMount(() => {
-    initiateLoginData()
-})
+const passwordResetProcess = () => {
+    sitestore.membersPopup = false, sitestore.passwordReset = true
+    sitestore.emailWindow = true
+    userstore.userData = {
+        "email" : ''
+    }
+}
 
 </script>
