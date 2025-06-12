@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center items-center fixed border top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.6)] h-full"  v-if="sitestore.membersPopup">
+    <div class="flex flex-col justify-center items-center fixed border top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.6)] h-full z-20"  v-if="sitestore.membersPopup">
         <!-- members form -->
         <div class="flex flex-col w-auto h-auto bg-white rounded-lg p-5" ref="membersWindow">
             <!-- form heading ( signin / signup) -->

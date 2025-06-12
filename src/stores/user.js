@@ -18,9 +18,7 @@ export const userStore = defineStore('userStore', () => {
     }
 
     const restoreToken = () => {
-        if(token.value == null){
-            token.value = localStorage.getItem('token')
-        }
+        token.value = localStorage.getItem('token')
         if(token.value == null){
             return false
         }else{

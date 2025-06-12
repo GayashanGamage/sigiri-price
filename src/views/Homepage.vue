@@ -51,25 +51,26 @@
                     <div class="flex sm:flex-row flex-col gap-4 mx-auto w-full justify-center">
                         <input type="text" class="border-2 border-neutral-300 rounded-sm h-10 focus:outline-none px-2 sm:max-w-[455px] max-w-[580px] min-w-[300px] w-full" placeholder="Product URL" v-model="productstore.productURL">
                         <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer" @click="getProduct">Search</button>
+                        <!-- <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer" @click="getProductFake">Search</button> -->
                     </div>
                     <!-- product view -->
                     <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50 relative">
-                        <img class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white object-contain" :src="productstore.searchProduct.image" v-if="productstore.searchProduct"></img>
+                        <img class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white object-contain" :src="productstore.searchProduct.product.img" v-if="productstore.searchProduct"></img>
                         <div class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white" v-if="!productstore.searchProduct"></div>
                         <div class="flex flex-col gap-4 sm:w-[50%] w-full">
-                            <h3 class="text-2xl font-medium">{{ productstore.searchProduct ? productstore.searchProduct.title : 'Product title' }}</h3>
+                            <h3 class="text-2xl font-medium">{{ productstore.searchProduct ? productstore.searchProduct.product.title : 'Product title' }}</h3>
                             <p class="" v-if="!errorShadow">
-                                <span class="bg-emerald-500 px-4 py-1 text-white rounded-full" v-if="productstore.searchProduct.availability == true">Available</span>
-                                <span class="bg-orange-700 px-4 py-1 text-white rounded-full"  v-if="productstore.searchProduct.availability != true">Not Avaialable</span>
+                                <span class="bg-emerald-500 px-4 py-1 text-white rounded-full" v-if="productstore.searchProduct.product.availability == true">Available</span>
+                                <span class="bg-orange-700 px-4 py-1 text-white rounded-full"  v-if="productstore.searchProduct.product.availability != true">Not Avaialable</span>
                             </p>
-                            <p class="">Code : {{ productstore.searchProduct ? productstore.searchProduct.code : '000xxx' }}</p>
-                            <p class="">Price : <span class="font-semibold text-2xl">{{ productstore.searchProduct ? productstore.searchProduct.price : 'Rs. 00.00' }}</span></p>
+                            <p class="">Code : {{ productstore.searchProduct ? productstore.searchProduct.product.code : '000xxx' }}</p>
+                            <p class="">Price : <span class="font-semibold text-2xl">{{ productstore.searchProduct ? productstore.searchProduct.product.price : 'Rs. 00.00' }}</span></p>
                             <div class="flex flex-col gap-2 p-2 rounded-sm bg-white w-full border-3 border-neutral-200">
                                 <div class="grid grid-cols-2 items-center gap-2">
                                     <label for="offer">My Offer Rs.</label>
-                                    <input type="text" id="offer" name="offer" class="border-3 border-neutral-300 rounded-sm h-10 focus:outline-none px-2"  placeholder="3500">
+                                    <input type="text" id="offer" name="offer" class="border-3 border-neutral-300 rounded-sm h-10 focus:outline-none px-2"  placeholder="3500" v-if="!errorShadow" v-model.number="productstore.searchProduct.tracking.myPrice">
                                 </div>
-                                <button class="border-2 border-neutral-300 px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer w-full">Track me</button>
+                                <button class="border-2 border-neutral-300 px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer w-full" @click="trackProcut">Track me</button>
                             </div>
                         </div>
                         <!-- error message -->
@@ -95,10 +96,12 @@ import Passwordreset from "@/components/popups/passwordreset.vue";
 import { productStore } from "@/stores/product";
 const productstore = productStore()
 import { siteStore } from "@/stores/sitedata";
+import { userStore } from "@/stores/user";
 import axios from "axios";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const siteData = siteStore()
+const userstore = userStore()
 
 const errorShadow = ref(true)
 
@@ -145,7 +148,6 @@ const showErrorMessage = (status, errorText) => {
 }
 
 const getProduct = () => {
-    console.log(productstore.productURL)
     // evaluate user input lenght
     if(productstore.productURL == null || productstore.productURL.length == 0){
         showErrorMessage(true, "Enter valied URL")
@@ -154,7 +156,20 @@ const getProduct = () => {
         "url" : productstore.productURL
         }})
         .then((success) => {
-            productstore.searchProduct = success.data.prodcut
+            productstore.searchProduct = {
+                "product": {
+                    "productLink": productstore.productURL,
+                    "price": success.data.prodcut['price'],
+                    "title": success.data.prodcut['title'],
+                    "code": success.data.prodcut['code'],
+                    "availability": success.data.prodcut['availability'],
+                    "img": success.data.prodcut['image'],
+                },
+                "tracking": {
+                    "defaultPrice": success.data.prodcut['price'],
+                    "myPrice": undefined,
+                }
+            }
             errorShadow.value = false
             productstore.productURL = null
         })
@@ -165,7 +180,64 @@ const getProduct = () => {
             productstore.productURL = null
         })
     }
-    // clean url section
+}
+
+const searchProductVisibility = () => {
+    productstore.searchProduct = null
+    errorShadow.value = true
+}
+
+const membersPopup = () => {
+    siteData.membersPopup = true
+    userstore.userData = {
+        "email" : '',
+        "password" : ''
+    }
+}
+
+const storeProduct = () => {
+    console.log(productstore.searchProduct)
+    axios.post(`${import.meta.env.VITE_site}/product/track`, productstore.searchProduct, {
+                headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${userstore.token}`
+                }
+            })
+        .then((success) => {
+            console.log('store successfull')
+            searchProductVisibility()
+        })
+        .catch((error) => {
+            console.log(error.status)
+            if(error.status == 404){
+                console.log('unauthorized access')
+                membersPopup()
+            }else if(error.status == 400){
+                console.log('Product duplication found')
+                searchProductVisibility()
+            }else if(error.status == 500){
+                console.log('Something went wrong. try again letter')
+            }
+        })
+}
+
+const trackProcut = () => {
+    if(productstore.searchProduct.product.price == undefined || productstore.searchProduct.product.price == 0 || !isNaN(productstore.searchProduct.product.price)){
+        console.log('set identicle price for this product')
+    }else if(userstore.token == null){
+        const restoretoken = userstore.restoreToken()
+        if(restoretoken == false){
+            // shot login popup
+            membersPopup()
+        }else if(restoretoken == true){
+            // request to scrape product
+            productstore.searchProduct.product.myPrice = parseInt(productstore.searchProduct.product.myPrice)
+            storeProduct()
+        }
+    }else if (userstore.token != null){
+        // request to scrape product
+        storeProduct()
+    }
 }
 
 </script>
