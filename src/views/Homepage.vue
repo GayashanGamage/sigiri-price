@@ -49,20 +49,21 @@
                     <subheading>Seach product</subheading>
                     <!-- search box -->
                     <div class="flex sm:flex-row flex-col gap-4 mx-auto w-full justify-center">
-                        <input type="text" class="border-2 border-neutral-300 rounded-sm h-10 focus:outline-none px-2 sm:max-w-[455px] max-w-[580px] min-w-[300px] w-full" placeholder="Product URL">
-                        <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer">Search</button>
+                        <input type="text" class="border-2 border-neutral-300 rounded-sm h-10 focus:outline-none px-2 sm:max-w-[455px] max-w-[580px] min-w-[300px] w-full" placeholder="Product URL" v-model="productstore.productURL">
+                        <button class="border px-10 py-2 rounded-sm hover:bg-[var(--button-one)] hover:text-white hover:border-[var(--button-one)] active:bg-[var(--button-two)] active:border-[var(--button-two)] hover:cursor-pointer" @click="getProduct">Search</button>
                     </div>
                     <!-- product view -->
                     <div class="flex sm:flex-row flex-col gap-10 max-w-[600px] min-w-[300px] w-full mx-auto border-3 p-4 rounded-sm border-neutral-200 shadow-lg bg-gray-50 relative">
-                        <div class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white"></div>
+                        <img class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white object-contain" :src="productstore.searchProduct.image" v-if="productstore.searchProduct"></img>
+                        <div class="sm:w-[50%] w-[100%] min-h-[290px] rounded-sm bg-white" v-if="!productstore.searchProduct"></div>
                         <div class="flex flex-col gap-4 sm:w-[50%] w-full">
-                            <h3 class="text-2xl font-medium">Title of the product</h3>
-                            <p class="">
-                                <span class="bg-emerald-500 px-4 py-1 text-white rounded-full">Available</span>
-                                <span class="bg-orange-700 px-4 py-1 text-white rounded-full hidden">Not Avaialable</span>
+                            <h3 class="text-2xl font-medium">{{ productstore.searchProduct ? productstore.searchProduct.title : 'Product title' }}</h3>
+                            <p class="" v-if="!errorShadow">
+                                <span class="bg-emerald-500 px-4 py-1 text-white rounded-full" v-if="productstore.searchProduct.availability == true">Available</span>
+                                <span class="bg-orange-700 px-4 py-1 text-white rounded-full"  v-if="productstore.searchProduct.availability != true">Not Avaialable</span>
                             </p>
-                            <p class="">Code : 00X34</p>
-                            <p class="">Price : Rs. <span class="font-semibold text-2xl">8000</span>.00</p>
+                            <p class="">Code : {{ productstore.searchProduct ? productstore.searchProduct.code : '000xxx' }}</p>
+                            <p class="">Price : <span class="font-semibold text-2xl">{{ productstore.searchProduct ? productstore.searchProduct.price : 'Rs. 00.00' }}</span></p>
                             <div class="flex flex-col gap-2 p-2 rounded-sm bg-white w-full border-3 border-neutral-200">
                                 <div class="grid grid-cols-2 items-center gap-2">
                                     <label for="offer">My Offer Rs.</label>
@@ -71,8 +72,9 @@
                                 <button class="border-2 border-neutral-300 px-10 py-2 rounded-sm hover:bg-black hover:text-white hover:border-black hover:cursor-pointer w-full">Track me</button>
                             </div>
                         </div>
-                        <div class="flex flex-col justify-center items-center w-full h-full border-1 absolute top-0 left-0 right-0 bottom-0 bg-white-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
-                            <p class="bg-black text-white px-10 py-2 rounded-full">No Product</p>
+                        <!-- error message -->
+                        <div class="flex flex-col justify-center items-center w-full h-full border-1 absolute top-0 left-0 right-0 bottom-0 bg-white-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100" v-if="errorShadow">
+                            <p class="bg-black text-white px-10 py-2 rounded-full" id="errorMessage">No Product</p>
                         </div>
                     </div>
                 </div>
@@ -90,10 +92,15 @@ import Menubar from "@/components/parts/menubar.vue";
 import NotificationMessage from "@/components/parts/notificationMessage.vue";
 import subheading from "@/components/parts/subheading.vue"
 import Passwordreset from "@/components/popups/passwordreset.vue";
+import { productStore } from "@/stores/product";
+const productstore = productStore()
 import { siteStore } from "@/stores/sitedata";
+import axios from "axios";
 import { ref } from "vue";
 
 const siteData = siteStore()
+
+const errorShadow = ref(true)
 
 const showQandA = ref([]) //unfolded questions index number list
 
@@ -117,6 +124,48 @@ const qandafunction = (qandaindex) => {
 // home page internal link building
 const directto = (locationId) => {
     window.location.href = `#${locationId}`
+}
+
+const showErrorMessage = (status, errorText) => {
+    const errorMessage = document.querySelector('#errorMessage')
+    // if there is a error
+    if(status == true){
+        errorShadow.value = true
+        setTimeout(() => {
+            const errorMessage = document.querySelector('#errorMessage')
+            errorMessage.textContent = errorText
+        }, 100)
+    }
+    // if there is no error
+    else if(status == false){
+        // errorMessage = ''
+        errorShadow.value = false
+
+    }
+}
+
+const getProduct = () => {
+    console.log(productstore.productURL)
+    // evaluate user input lenght
+    if(productstore.productURL == null || productstore.productURL.length == 0){
+        showErrorMessage(true, "Enter valied URL")
+    }else{
+        axios.get(`${import.meta.env.VITE_site}/product/`, { params: {
+        "url" : productstore.productURL
+        }})
+        .then((success) => {
+            productstore.searchProduct = success.data.prodcut
+            errorShadow.value = false
+            productstore.productURL = null
+        })
+        .catch((error) => {
+            productstore.searchProduct = null
+            productstore.productURL = null
+            showErrorMessage(true, "product not available")
+            productstore.productURL = null
+        })
+    }
+    // clean url section
 }
 
 </script>

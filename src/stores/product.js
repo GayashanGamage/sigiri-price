@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 export const productStore = defineStore('productStore', () => {
   // this is for store 'newPrice' and 'view' in favorites page - this is only for temparary until selection is discard
+  const productURL = ref(null)
+  const searchProduct = ref(null)
   const selectedProduct = ref(null)
   const selectedProductIndex = ref(null)
   const lovedProducts = ref([
@@ -53,7 +55,7 @@ export const productStore = defineStore('productStore', () => {
       },
   ])
 
-  return{ selectedProduct, lovedProducts, selectedProductIndex }
+  return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct }
 })
 
 // import { ref, computed, onBeforeMount } from "vue";
