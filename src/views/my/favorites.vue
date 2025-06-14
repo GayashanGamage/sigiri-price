@@ -11,12 +11,12 @@
                     <th class="min-w-[130px] w-[300px]"></th>
                 </tr>
             </thead>
-            <tbody class="sm:table-row-group flex flex-col gap-4" v-if="productstore.lovedProducts == null">
+            <tbody class="sm:table-row-group flex flex-col gap-4" >
                 <!-- <tr v-if="productstore.lovedProducts.length == 0"> -->
-                <!-- <tr v-if="productstore.lovedProducts == null">
+                <tr v-if="productstore.lovedProducts == null">
                     <td class="text-center py-4" colspan="5"><span class="bg-red-500 text-white px-10 py-1 rounded-full shadow-sm shadow-red-500">Still you not add any item</span></td>
-                </tr> -->
-                <tr class="sm:table-row flex flex-col sm:border-1 sm:border-b sm:border-gray-200 border-2 border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-50 hover:bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts"">
+                </tr>
+                <tr class="sm:table-row flex flex-col sm:border-1 sm:border-b sm:border-gray-200 border-2 border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-50 hover:bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts" :key="item._id">
                     <td class="sm:table-cell sm:pl-4 flex flex-row"><span class="sm:hidden block font-bold mr-18">Name :</span>{{ item.title }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Product code :</span>{{ item.code }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.defaultPrice }}</td>
@@ -40,11 +40,12 @@
 import DeleteProduct from '@/components/popups/deleteProduct.vue';
 import PriceChange from '@/components/popups/priceChange.vue';
 import ProductView from '@/components/popups/productView.vue';
+import router from '@/router';
 import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
 import { userStore } from '@/stores/user';
 import axios from 'axios';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 
 // site related states store
 const sitedata = siteStore()
@@ -111,23 +112,37 @@ const productView = (selectedIndex) => {
 //     },
 // ])
 
-onBeforeMount(() => {
+onMounted(() => {
     // check loved poducts are available or not
     // if not request from API
     if(productstore.lovedProducts == null){
         axios.get(`${import.meta.env.VITE_site}/product/summery`, {
-                headers: {
+            headers: {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${userstore.token}`
-                }
+            }
+        })
+            .then((success) => {
+                console.log('try to execute API endpoint')
+                // console.log(success.status)
+                productstore.lovedProducts = success.data.data
             })
-        .then((success) => {
-            console.log(success.status)
-            productstore.lovedProducts = success.data.data
-        })
-        .catch((erro) => {
-            console.log(erro.status)
-        })
+            .catch((erro) => {
+                console.log(erro.status)
+            })
+        }
+    })
+    
+onBeforeMount(() => {
+    console.log('try to execute token protection validation')
+    if(userstore.token == null){
+        const restore =  userstore.restoreToken()
+        console.log(restore)
+        if(restore == false){
+            console.log('exit from my page one')
+            router.push({'name' : 'productview2'})
+            return
+        }
     }
 })
 

@@ -14,6 +14,8 @@
                     <input type="text" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="Email" v-model="userstore.userData.email">
                     <input type="password" class="border-2 border-gray-300 focus:outline-none px-4 py-1 rounded-sm" placeholder="password" v-model="userstore.userData.password">
                     <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="login">Login</button>
+                    <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="userstore.restoreToken">get cookies</button>
+                    <button class="border-2  hover:bg-black hover:text-white hover:border-black rounded-sm py-2" @click="userstore.removeToken">remove cookies</button>
                     <p class="text-xs self-end hover:underline hover:cursor-pointer" @click="passwordResetProcess">Foget password ?</p>
                     <!-- error messages -->
                     <div class="flex flex-row justify-between items-center px-2 bg-[rgba(247,55,79,0.8)] border-3 border-[rgba(247,55,79,1)] py-1 text-white rounded-md mt-4" v-if="errormessage"> 
@@ -39,6 +41,8 @@
     </div>
 </template>
 <script setup>
+// ************************************************** imports *********************
+
 import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
 import { userStore } from '@/stores/user';
@@ -46,31 +50,46 @@ import { onClickOutside } from '@vueuse/core';
 import axios from 'axios';
 import { onBeforeMount, ref } from 'vue';
 
+// ************************************************* iniciate datapoints **********
 
 const sitestore = siteStore()
 const userstore = userStore()
+const errormessage = ref(false) // togeling error message
+const membersWindow = ref(null) // this is for click outside function
 
-// const signintoggle = ref(true) // true menan signin
-const errormessage = ref(false)
-const membersWindow = ref(null) //reffer to members content window for click-outside-close
+// ************************************************* suported functions ***********
+const resetUserData = () => {
+    // reset data on pinia store (userData)
+    userstore.userData = null
+}
 
-// close the members window when click the outside of the members shadow area
-onClickOutside(membersWindow, () => {
-    sitestore.signintoggle = true
-    sitestore.membersPopup = false
-    resetUserData()
-})
+const initiateNewUserData = () => {
+    // initiate data for create new user in pinia store
+    userstore.userData = {
+        "email": "",
+        "password": "",
+        "passwordTwo": "",
+        "firstName": ""
+    }
+}
 
 const showErrorMessage = (errorText) => {
+    // show error message in dynamic way
     errormessage.value = true
     setTimeout(() => {
         document.querySelector('#errorText').innerHTML = errorText
     }, 100)
 }
 
-const resetUserData = () => {
-    userstore.userData = null
+const initiateLoginData = () => {
+    // initiate loging related data on pinia store
+    userstore.userData = {
+        'email' : "",
+        'password' : ""
+    }
 }
+
+// ************************************************* API request & main functions *
 
 const login = () => {
     // validate all inputes enter or not
@@ -79,42 +98,25 @@ const login = () => {
     }else{
         // call API endpoint
         axios.post(`${import.meta.env.VITE_site}/auth/login`, userstore.userData)
-            .then(function(response){
-                userstore.storeToken(response.data.token)
-                sitestore.membersPopup = false
-                router.push({name : 'my'})
-            })
-            .catch(function(error){
-                if(error.status == 404){
-                    // show error code
-                    showErrorMessage("invalied credentials!")
-                }
-            })
-    }
-}
-
-const initiateNewUserData = () => {
-    userstore.userData = {
-            "email": "",
-            "password": "",
-            "passwordTwo": "",
-            "firstName": ""
+        .then(function(response){
+            userstore.storeToken(response.data.token)
+            sitestore.membersPopup = false
+            router.push({name : 'my'})
+        })
+        .catch(function(error){
+            if(error.status == 404){
+                // show error code
+                showErrorMessage("invalied credentials!")
             }
-}
-
-const initiateLoginData = () => {
-    userstore.userData = {
-        'email' : "",
-        'password' : ""
+        })
     }
 }
-
 
 // toggle betwen signin and singup
 const membersToggle = (action) => {
     const signinButton = document.querySelector('#signinButton')
     const signupButton = document.querySelector('#signupButton')
-
+    
     if(action === 'singin'){
         initiateLoginData()
         sitestore.signintoggle = true
@@ -128,7 +130,7 @@ const membersToggle = (action) => {
         signupButton.classList.replace( 'border-black','border-gray-300')
     }else if(action === 'signup'){
         initiateNewUserData() //this is for create new user's data blueprint
-
+        
         sitestore.signintoggle = false
         // signin button styles
         signinButton.classList.replace('text-white', 'text-black')
@@ -156,16 +158,16 @@ const registerUser = () => {
         const userDataCopy = { ...userstore.userData} //create shallow coppy of the userData
         delete userDataCopy.passwordTwo //remove coppy of the password 
         axios.post(`${import.meta.env.VITE_site}/auth/create-user`, userstore.userData)
-            .then(function(response){
-                sitestore.signintoggle = true //change in to loging screan
-                initiateNewUserData() //reset new user data
-            })
-            .catch(function(error){
-                if(error.status !== 200){
-                    initiateNewUserData()
-                    showErrorMessage("try again latter ! ")
-                }
-            })
+        .then(function(response){
+            sitestore.signintoggle = true //change in to loging screan
+            initiateNewUserData() //reset new user data
+        })
+        .catch(function(error){
+            if(error.status !== 200){
+                initiateNewUserData()
+                showErrorMessage("try again latter ! ")
+            }
+        })
     }
 }
 
@@ -177,4 +179,12 @@ const passwordResetProcess = () => {
     }
 }
 
+// ******************************************************** lifecycle event ***************
+onClickOutside(membersWindow, () => {
+    // close the members window when click the outside of the members shadow area
+    console.log('trigger click outside')
+    sitestore.signintoggle = true
+    sitestore.membersPopup = false
+    resetUserData()
+})
 </script>

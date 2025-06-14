@@ -14,17 +14,30 @@ export const userStore = defineStore('userStore', () => {
     // functions ------------------------------------------------------
     const storeToken = (tokenkey) => {
         token.value = tokenkey
-        localStorage.setItem('token', tokenkey)
+        document.cookie = `token=${tokenkey}; expires=Thu, 31 Dec 2026 12:00:00 UTC;`;
+        // localStorage.setItem('token', tokenkey)
     }
 
     const restoreToken = () => {
-        token.value = localStorage.getItem('token')
+        const allTokens = document.cookie.split(';')
+        for (let index = 0; index < allTokens.length; index++) {
+            console.log(allTokens[index])
+            if(allTokens[index].startsWith('token')){
+                token.value = allTokens[index].slice(6, allTokens[index].length)
+            }            
+        }
         if(token.value == null){
+            removeToken()
             return false
         }else{
             return true
         }
     }
 
-    return { personalData, userData, token, storeToken, restoreToken } 
+    const removeToken = () => {
+        token.value = null
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    }
+
+    return { personalData, userData, token, storeToken, restoreToken, removeToken } 
 })

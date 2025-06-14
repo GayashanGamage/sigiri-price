@@ -196,7 +196,6 @@ const membersPopup = () => {
 }
 
 const storeProduct = () => {
-    console.log(productstore.searchProduct)
     axios.post(`${import.meta.env.VITE_site}/product/track`, productstore.searchProduct, {
                 headers: {
                 'Content-Type': 'application/json', 
@@ -222,21 +221,20 @@ const storeProduct = () => {
 }
 
 const trackProcut = () => {
-    if(productstore.searchProduct.product.price == undefined || productstore.searchProduct.product.price == 0 || !isNaN(productstore.searchProduct.product.price)){
+    if(productstore.searchProduct.tracking.myPrice == undefined || parseInt(productstore.searchProduct.tracking.myPrice) == 0 || isNaN(productstore.searchProduct.tracking.myPrice)){
         console.log('set identicle price for this product')
-    }else if(userstore.token == null){
-        const restoretoken = userstore.restoreToken()
-        if(restoretoken == false){
-            // shot login popup
-            membersPopup()
-        }else if(restoretoken == true){
-            // request to scrape product
-            productstore.searchProduct.product.myPrice = parseInt(productstore.searchProduct.product.myPrice)
+    }else if(productstore.searchProduct.tracking.myPrice != undefined && parseInt(productstore.searchProduct.tracking.myPrice) >= 1 && !isNaN(productstore.searchProduct.tracking.myPrice)){
+        console.log('number is correct now')
+        if(userstore.token == null){
+            const tokenAvailability = userstore.restoreToken()
+            if(tokenAvailability == false){
+                membersPopup()
+            }else if(tokenAvailability == true){
+                storeProduct()
+            }
+        }else if(userstore.token != null){
             storeProduct()
         }
-    }else if (userstore.token != null){
-        // request to scrape product
-        storeProduct()
     }
 }
 

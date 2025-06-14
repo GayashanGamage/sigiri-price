@@ -36,8 +36,10 @@
 
 <script setup>
 import Passwordreset from '@/components/popups/passwordreset.vue';
+import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
 import { userStore } from '@/stores/user';
+import { onBeforeMount } from 'vue';
 
 const userstore = userStore()
 const sitestore = siteStore()
@@ -51,6 +53,66 @@ const changePassword = () => {
     sitestore.emailWindow = false
     sitestore.secreateCodeWindow = true
     sitestore.passwordReset = true
+}
+
+onBeforeMount(() => {
+    console.log('try to execute token protection validation')
+    if(userstore.token == null){
+        const restore =  userstore.restoreToken()
+        console.log(restore)
+        if(restore == false){
+            console.log('exit from my page one')
+            router.push({'name' : 'productview2'})
+            return
+        }
+    }
+})
+
+// remove this
+const storeProduct = () => {
+    // check the price is insert and validation
+    // if not show error on console log
+    // if not procede bellows
+    // check token is available or not
+    // if token is available then, send request with token
+    // if responce code is 403/ 404 then crean all tokens from pinia store & cookies store
+    // show login page
+    // if token is not available, then make a API request
+    const myPrice = userstore.searchProduct.tracking.myPrice
+    console.log(myPrice)
+    if(isNaN(myPrice)){
+        const tokenAvailability = userstore.restoreToken()
+        if(tokenAvailability == true){
+            axios.post(`${import.meta.env.VITE_site}/product/track`, productstore.searchProduct, {
+                        headers: {
+                        'Content-Type': 'application/json', 
+                        'Authorization': `Bearer ${userstore.token}`
+                        }
+                    })
+                .then((success) => {
+                    // console.log('store successfull')
+                    searchProductVisibility()
+                })
+                .catch((error) => {
+                    // console.log(error.status)
+                    if(error.status == 404){
+                        // console.log('unauthorized access')
+                        userstore.removeToken()
+                        membersPopup()
+                    }else if(error.status == 400){
+                        // console.log('Product duplication found')
+                        searchProductVisibility()
+                    }else if(error.status == 500){
+                        // console.log('Something went wrong. try again letter')
+                    }
+                })
+        }else if(tokenAvailability == false){
+            membersPopup()
+        }
+    }else{
+        // console.log('enter valied price')
+    }
+    
 }
 
 </script>

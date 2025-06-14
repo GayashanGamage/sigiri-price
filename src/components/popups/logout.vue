@@ -14,11 +14,13 @@
 <script setup>
 import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
-
+import { userStore } from '@/stores/user';
+const userstore = userStore()
 const sitedata = siteStore()
 
 const logout = () => {
-    router.push({'name' : 'productview2'})
+    userstore.removeToken()
+    router.replace({'name' : 'productview2'})
     sitedata.logoutPopup = false
 }
 
