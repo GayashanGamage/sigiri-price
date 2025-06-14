@@ -7,11 +7,11 @@
             </div>
             <!-- body section -->
             <div class="flex flex-col gap-3">
-                <p class=""><span class="font-bold mr-25">Name : </span>{{ productstore.selectedProduct.name }}</p>
-                <p class=""><span class="font-bold mr-11">Current price : </span>Rs. {{ productstore.selectedProduct.current_price }}</p>
+                <p class=""><span class="font-bold mr-25">Name : </span>{{ productstore.selectedProduct.title }}</p>
+                <p class=""><span class="font-bold mr-11">Current price : </span>Rs. {{ productstore.selectedProduct.defaultPrice }}</p>
                 <div class="grid grid-cols-2">  
                     <p class="font-bold mr-12">My new Price</p>
-                    <input type="text" class="border-3 border-neutral-300 rounded-sm h-10 focus:outline-none px-2" v-model="productstore.selectedProduct.my_price" :placeholder="productstore.selectedProduct.my_price">
+                    <input type="text" class="border-3 border-neutral-300 rounded-sm h-10 focus:outline-none px-2" v-model="productstore.selectedProduct.myPrice" :placeholder="productstore.selectedProduct.myPrice">
                 </div>
             </div>
             <!-- footer section -->
@@ -24,10 +24,14 @@
 </template>
 
 <script setup>
+import router from '@/router';
 import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
+import { userStore } from '@/stores/user';
+import axios from 'axios';
 
 const sitedata = siteStore()
+const userstore = userStore()
 const productstore =  productStore()
 
 // discard new price 
@@ -36,12 +40,49 @@ const discardNewPrice = () => {
     sitedata.priceChangePopup = false
 }
 
+const updatePrice = () => {
+    axios.patch(`${import.meta.env.VITE_site}/product/updateprice`, {
+        'id' : productstore.selectedProduct._id,
+        'myPrice' : productstore.selectedProduct.myPrice
+        }, 
+        {'headers' : {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${userstore.token}`
+        }} 
+    )
+        .then((success) => {
+            sitedata.priceChangePopup = false
+            productstore.selectedProduct = null
+            productstore.selectedProductIndex = null
+        })
+        .catch((error) => {
+            console.log(error.status)
+            sitedata.priceChangePopup = false
+            productstore.selectedProduct = null
+            productstore.selectedProductIndex = null
+        })
+}
+
 // save new price as new tracking price
 const confirmNewPrice = () => {
-    productstore.lovedProducts[productstore.selectedProductIndex] = productstore.selectedProduct
-    productstore.selectedProduct =  null
-    productstore.selectedProductIndex = null
-    sitedata.priceChangePopup = false
+    const price = productstore.selectedProduct.myPrice
+    if(isNaN(price) || price <= 0){
+        alert('enter valied price')
+    }else if(!isNaN(price) && price >= 1){
+        if(userstore.token != null){
+            updatePrice()
+        }else if(userstore.token == null){
+            const tokenLoad = userstore.restoreToken()
+            if(tokenLoad == true){
+                updatePrice()
+            }else if(tokenLoad == false){
+                productstore.selectedProductIndex = null
+                productstore.selectedProduct = null
+                sitedata.priceChangePopup = false
+                router.push('/')
+            }
+        }
+    }
 }
 
 </script>
