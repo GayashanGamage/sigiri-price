@@ -7,8 +7,7 @@
             </div>
             <!-- boddy section -->
             <div class="flex flex-col gap-2">
-                <p class=""><span class="font-bold mr-20">Name :</span>{{ productstore.selectedProduct.name }}</p>
-                <p class=""><span class="font-bold mr-4">Traking started :</span>{{ productstore.selectedProduct.added_date }}</p>
+                <p class=""><span class="font-bold mr-20">Name :</span>{{ productstore.selectedProduct.title }}</p>
             </div>
             <!-- footer section -->
             <div class="grid grid-cols-2 gap-2">
@@ -20,11 +19,15 @@
 </template>
 
 <script setup>
+import router from '@/router';
 import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
+import { userStore } from '@/stores/user';
+import axios from 'axios';
 const productstore = productStore()
 
 const sitedata = siteStore()
+const userstore = userStore()
 
 const deleteCancel = () => {
     productstore.selectedProduct = null
@@ -32,11 +35,53 @@ const deleteCancel = () => {
     sitedata.productDeletePopup = false
 }
 
-const deleteConfirm = () => {
-    productstore.lovedProducts.splice(productstore.selectedProductIndex, 1)
-    productstore.selectedProduct = null
+const autoLogout = () => {
     productstore.selectedProductIndex = null
+    productstore.selectedProduct = null
     sitedata.productDeletePopup = false
+    router.push('/')
+
+}
+
+const deleteRequest = () => {
+    axios.delete(`${import.meta.env.VITE_site}/product/delete`, {
+        params : {
+            'id' : productstore.selectedProduct._id
+        },
+        headers : {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userstore.token}`
+        }
+    })
+    .then((success) => {
+        if(success.status == 200){
+            productstore.selectedProduct = null
+            productstore.selectedProductIndex = null
+            sitedata.productDeletePopup = false
+        }
+    })
+    .catch((error) => {
+        if(error.status == 404){
+            autoLogout()
+        }else if(error.status == 400){
+            console.log('request all data from product summery endpoint')
+        }else{
+            console.log('show error message')
+        }
+    })
+}
+
+const deleteConfirm = () => {
+    if(userstore.token != null){
+        deleteRequest()
+    }else if(userstore.token == null){
+        loadToken = userstore.restoreToken()
+        if(loadToken == false){
+            autoLogout()
+        }else if(loadToken != false){
+            deleteRequest()
+        }
+    }
 }
 
 </script>
