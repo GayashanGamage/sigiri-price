@@ -7,53 +7,54 @@ export const productStore = defineStore('productStore', () => {
   const searchProduct = ref(null)
   const selectedProduct = ref(null)
   const selectedProductIndex = ref(null)
-  const lovedProducts = ref([
-      {
-          id : '001',
-          name : 'samsung gallaxy s2',
-          product_code : 'EIU002',
-          current_price : '1000.00',
-          my_price : '800.00',
-          added_date : '2-3-2025',
-          availability : true
-        },
-        {
-          id : '001',
-          name : 'samsung gallaxy s2',
-          product_code : 'EIU002',
-          current_price : '1000.00',
-          my_price : '800.00',
-          added_date : '2-3-2025',
-          availability : false
-        },
-        {
-          id : '001',
-          name : 'samsung gallaxy s2',
-          product_code : 'EIU002',
-          current_price : '1000.00',
-          my_price : '800.00',
-          added_date : '2-3-2025',
-          availability : true
-        },
-        {
-          id : '001',
-          name : 'samsung gallaxy s2',
-          product_code : 'EIU002',
-          current_price : '1000.00',
-          my_price : '800.00',
-          added_date : '2-3-2025',
-          availability : true
-        },
-        {
-          id : '001',
-          name : 'samsung gallaxy s2',
-          product_code : 'EIU002',
-          current_price : '1000.00',
-          my_price : '800.00',
-          added_date : '2-3-2025',
-          availability : false
-      },
-  ])
+  const lovedProducts = ref(null)
+  // const lovedProducts = ref([
+  //     {
+  //         id : '001',
+  //         name : 'samsung gallaxy s2',
+  //         product_code : 'EIU002',
+  //         current_price : '1000.00',
+  //         my_price : '800.00',
+  //         added_date : '2-3-2025',
+  //         availability : true
+  //       },
+  //       {
+  //         id : '001',
+  //         name : 'samsung gallaxy s2',
+  //         product_code : 'EIU002',
+  //         current_price : '1000.00',
+  //         my_price : '800.00',
+  //         added_date : '2-3-2025',
+  //         availability : false
+  //       },
+  //       {
+  //         id : '001',
+  //         name : 'samsung gallaxy s2',
+  //         product_code : 'EIU002',
+  //         current_price : '1000.00',
+  //         my_price : '800.00',
+  //         added_date : '2-3-2025',
+  //         availability : true
+  //       },
+  //       {
+  //         id : '001',
+  //         name : 'samsung gallaxy s2',
+  //         product_code : 'EIU002',
+  //         current_price : '1000.00',
+  //         my_price : '800.00',
+  //         added_date : '2-3-2025',
+  //         availability : true
+  //       },
+  //       {
+  //         id : '001',
+  //         name : 'samsung gallaxy s2',
+  //         product_code : 'EIU002',
+  //         current_price : '1000.00',
+  //         my_price : '800.00',
+  //         added_date : '2-3-2025',
+  //         availability : false
+  //     },
+  // ])
 
   return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct }
 })

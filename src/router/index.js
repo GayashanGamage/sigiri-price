@@ -67,12 +67,14 @@ const router = createRouter({
 
 // router guade
 router.beforeEach((to, from, next) => {
+  console.log('executed from store')
   // get cookie
   let allCookie = document.cookie.split("; ");
   let selectedCookie = "";
   for (let i = 0; i < allCookie.length; i++) {
     if (allCookie[i].startsWith("token=")) {
       selectedCookie = allCookie[i].slice(6);
+      console.log(selectedCookie)
     }
   }
   // get username from local storage
