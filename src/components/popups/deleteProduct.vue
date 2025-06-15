@@ -58,6 +58,7 @@ const deleteRequest = () => {
             productstore.selectedProduct = null
             productstore.selectedProductIndex = null
             sitedata.productDeletePopup = false
+            productstore.summeryRefresh = true
         }
     })
     .catch((error) => {

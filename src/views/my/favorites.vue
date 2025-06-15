@@ -117,22 +117,25 @@ onMounted(() => {
     // check loved poducts are available or not
     // if not request from API
     if(productstore.lovedProducts == null){
-        axios.get(`${import.meta.env.VITE_site}/product/summery`, {
-            headers: {
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${userstore.token}`
+        productstore.productSummery()
+        // axios.get(`${import.meta.env.VITE_site}/product/summery`, {
+        //     headers: {
+        //         'Content-Type': 'application/json', 
+        //         'Authorization': `Bearer ${userstore.token}`
+        //     }
+        // })
+        //     .then((success) => {
+        //         console.log('try to execute API endpoint')
+        //         // console.log(success.status)
+        //         productstore.lovedProducts = success.data.data
+        //     })
+        //     .catch((erro) => {
+        //         console.log(erro.status)
+        //     })
+        // }
             }
-        })
-            .then((success) => {
-                console.log('try to execute API endpoint')
-                // console.log(success.status)
-                productstore.lovedProducts = success.data.data
-            })
-            .catch((erro) => {
-                console.log(erro.status)
-            })
         }
-    })
+    )
     
 onBeforeMount(() => {
     console.log('try to execute token protection validation')

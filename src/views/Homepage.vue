@@ -100,6 +100,8 @@ import { userStore } from "@/stores/user";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 
+const skeleton = ref(true)
+
 const siteData = siteStore()
 const userstore = userStore()
 
@@ -205,6 +207,7 @@ const storeProduct = () => {
         .then((success) => {
             console.log('store successfull')
             searchProductVisibility()
+            productstore.summeryRefresh = true
         })
         .catch((error) => {
             console.log(error.status)

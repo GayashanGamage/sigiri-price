@@ -1,13 +1,44 @@
+import axios from 'axios';
 import { defineStore } from 'pinia'
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { userStore } from './user';
 
 export const productStore = defineStore('productStore', () => {
   // this is for store 'newPrice' and 'view' in favorites page - this is only for temparary until selection is discard
+  const userstore = userStore()
   const productURL = ref(null)
   const searchProduct = ref(null)
   const selectedProduct = ref(null)
   const selectedProductIndex = ref(null)
   const lovedProducts = ref(null)
+
+  const summeryRefresh = ref(false)
+
+  const productSummery = () => {
+    axios.get(`${import.meta.env.VITE_site}/product/summery`, {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${userstore.token}`
+            }
+        })
+            .then((success) => {
+                // console.log('try to execute API endpoint')
+                // console.log(success.status)
+                lovedProducts.value = success.data.data
+            })
+            .catch((erro) => {
+                console.log(erro.status)
+            })
+        }
+  
+  watch(() => summeryRefresh.value, (newVal, oldVal) => {
+    if(newVal == true){
+      productSummery()
+      console.log('fire product summery refresh')
+      summeryRefresh.value = false
+    }
+  })
+
   // const lovedProducts = ref([
   //     {
   //         id : '001',
@@ -56,7 +87,7 @@ export const productStore = defineStore('productStore', () => {
   //     },
   // ])
 
-  return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct }
+  return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct, summeryRefresh, productSummery }
 })
 
 // import { ref, computed, onBeforeMount } from "vue";

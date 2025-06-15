@@ -54,6 +54,7 @@ const updatePrice = () => {
             sitedata.priceChangePopup = false
             productstore.selectedProduct = null
             productstore.selectedProductIndex = null
+            productstore.summeryRefresh = true
         })
         .catch((error) => {
             console.log(error.status)
