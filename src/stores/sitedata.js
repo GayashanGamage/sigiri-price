@@ -8,6 +8,7 @@ export const siteStore = defineStore("siteStore", () => {
   const priceChangePopup = ref(false);
   const productDeletePopup = ref(false);
   const productView = ref(false);
+  
   const signintoggle = ref(true); // true menan signin
 
   // password reset window related states

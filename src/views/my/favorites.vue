@@ -69,8 +69,9 @@ const productDelete = (selectedIndex) => {
 }
 
 const productView = (selectedIndex) => {
+    console.log(selectedIndex)
     productstore.selectedProductIndex = selectedIndex
-    productstore.selectedProduct = productstore.lovedProducts[selectedIndex]
+    productstore.selectedProduct = productstore.lovedProducts[productstore.selectedProductIndex]
     sitedata.productView = true
 }
 
