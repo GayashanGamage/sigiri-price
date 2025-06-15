@@ -4,12 +4,13 @@ import { ref } from 'vue';
 export const userStore = defineStore('userStore', () => {
     const userData = ref()
     const token = ref(null)
-    const personalData = {
-        name : 'Gayashan Gamage',
-        email : 'gayashan.randimagamage@gmail.com',
-        created : '1st of May, 2025',
-        notificationFreez : true
-    }
+    const personalData = ref()
+    // const personalData = {
+    //     name : 'Gayashan Gamage',
+    //     email : 'gayashan.randimagamage@gmail.com',
+    //     created : '1st of May, 2025',
+    //     notificationFreez : true
+    // }
 
     // functions ------------------------------------------------------
     const storeToken = (tokenkey) => {
