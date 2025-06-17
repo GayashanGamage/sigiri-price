@@ -25,11 +25,16 @@
             </div>
         </div>
         <div class="sm:grid sm:grid-cols-2 gap-4 grid grid-cols-1 md:mt-0 mt-4">
-            <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100">
+            <!-- actual part for freez notification -->
+            <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100" v-if="!skeleton">
                 <h3 class="font-semibold text-xl">Freez notifications</h3>
                 <p class="text-gray-400 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium hic minima</p>
-                <!-- <button class="border-2 font-semibold text-sm py-2 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white active:bg-[var(--button-activate)] active:border-[var(--button-activate)] active:text-white" v-if="userstore.personalData.notificationFreez == false" @click="notificationFreez">Freez notifications</button>
-                <button class="border-2 font-semibold text-sm py-2 rounded-sm hover:bg-[var(--button-hover)] hover:border-[var(--button-hover)] hover:text-white bg-[var(--button-activate)] border-[var(--button-activate)] text-white" v-if="userstore.personalData.notificationFreez == true" @click="notificationFreez">UnFreez notifications</button> -->
+                <button :class="{'border-2 rounded-sm font-semibold text-sm py-2' : userstore.personalData.allEmailNotification == false, 'border-2 rounded-sm font-semibold text-sm py-2 bg-black text-white border-black' : userstore.personalData.allEmailNotification == true }" @click="notificationFreez">{{ userstore.personalData.allEmailNotification == true ? 'Freeze Notification' : 'Unfreeze notification' }}</button>
+            </div>
+            <!-- skeleton part for freeze notification -->
+            <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100 animate-pulse" v-if="skeleton">
+                <h3 class="font-semibold text-xl">Freez notifications</h3>
+                <p class="text-gray-400 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium hic minima</p>
             </div>
             <div class="flex flex-col p-4 border-2 border-gray-200 rounded-md gap-4 bg-gray-50 hover:bg-gray-100">
                 <h3 class="font-semibold text-xl">Change password</h3>
@@ -53,8 +58,40 @@ const userstore = userStore()
 const sitestore = siteStore()
 const skeleton = ref(true)
 
+const changeNotificationStatus = () => {
+    // console.log(!userstore.personalData.allEmailNotification, typeof(userstore.personalData.allEmailNotification))
+    axios.patch(`${import.meta.env.VITE_site}/user/setnotificationall`, null, {
+        params : {
+            'notificationStatus' : userstore.personalData.allEmailNotification
+        },
+        headers : {
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${userstore.token}`
+        }
+    })
+    .then((succuss) => {
+        userstore.personalData.allEmailNotification = !userstore.personalData.allEmailNotification
+    })
+    .catch((error) => {
+        console.log(error.status)
+    })
+}
+
 const notificationFreez = () => {
-    userstore.personalData.notificationFreez = !userstore.personalData.notificationFreez
+    // check token in userstore
+    // if not available, then try to restore
+    // if restore is success then send request
+    // if restore is unsuccess, then logout and clearn all data
+    if(userstore.token != null){
+        changeNotificationStatus()
+    }else if(userstore.token == null){
+        const restore = userstore.restoreToken()
+        if(restore == true){
+            changeNotificationStatus()
+        }else if(restore == false){
+            logout()
+        }
+    }
 }
 
 const changePassword = () => {

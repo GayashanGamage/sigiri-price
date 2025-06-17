@@ -47,6 +47,7 @@
                         </div>
                         <p class="hover:underline hover:cursor-pointer" @click="liveProduct(productstore.selectedProduct.details.productLink)"><span class="">live Product</span><i class="fi fi-rr-arrow-up-right-from-square ml-2"></i></p>
                     </div>
+                    <button :class="{'border-2 rounded-sm font-semibold text-sm py-2' : productstore.selectedProduct.emailNotification == false || productstore.selectedProduct.allEmailNotification == false, 'border-2 rounded-sm font-semibold text-sm py-2 bg-black text-white border-black' : productstore.selectedProduct.allEmailNotification == true && productstore.selectedProduct.emailNotification == true  }" @click="notificationFreezOne">{{ productstore.selectedProduct.allEmailNotification == true && productstore.selectedProduct.emailNotification == true  ? 'UnFreeze Notification' : 'Freeze notification' }}</button>
                 </div>
                 <!-- tracked price -->
                 <div class="flex flex-col gap-2" v-if="price">
@@ -318,6 +319,41 @@ watch(() => sitedata.productView, (newVal, oldval) => {
 const liveProduct = (url) => {
     // this is for open new refferencing product page
     window.open(url, '_blank')
+}
+
+const freezeAction = () => {
+    axios.patch(`${import.meta.env.VITE_site}/user/setnotification`, null, 
+        {
+            params : {
+                'trakingId' : productstore.selectedProduct._id,
+                'trackingStatus' : productstore.selectedProduct.emailNotification,
+                'allTrackingStatus' : productstore.selectedProduct.allEmailNotification
+            },
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userstore.token}`
+            }
+        }
+    )
+    .then((success) => {
+        productstore.selectedProduct.emailNotification = !productstore.selectedProduct.emailNotification
+    })
+    .catch((error) => {
+        console.log(error.status)
+    })
+}
+
+const notificationFreezOne = () => {
+    if(userstore.token == null){
+        restore = userstore.restoreToken()
+        if(restore == true){
+            freezeAction()
+        }else if(restore == false){
+            logout()
+        }
+    }else if(userstore.token != null){
+        freezeAction()
+    }   
 }
 
 </script>
