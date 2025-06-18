@@ -25,6 +25,8 @@ import Footer from '@/components/parts/footer.vue';
 import Menubar from '@/components/parts/menubar.vue';
 import router from '@/router';
 import { siteStore } from '@/stores/sitedata';
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 const sitedata = siteStore()
 
 // toggle betwen signin and singup
@@ -56,5 +58,14 @@ const myToggle = (toggleTo) => {
         signupButton.classList.replace('border-gray-300', 'border-black')
     }
 }
+
+onMounted(() => {
+    const currentRoute = useRoute().name
+    if(currentRoute == 'favorites'){
+        myToggle('setting')
+    }else if(currentRoute == 'settings'){
+        myToggle('favorit')
+    }
+})
 
 </script>
