@@ -5,7 +5,7 @@
             <thead class="sm:table-header-group hidden bg-gray-100">
                 <tr class="text-left">
                     <th class="max-w-[500px] min-w-[200px] w-[500px] pl-4 py-2">Name</th>
-                    <th class="max-w-[300px] min-w-[200px] w-[200px]">Product code</th>
+                    <th class="max-w-[300px] min-w-[200px] w-[200px]">Traking status</th>
                     <th class="min-w-[130px] w-[150px]">Current price</th>
                     <th class="min-w-[130px] w-[150px]">My price</th>
                     <th class="min-w-[130px] w-[300px]"></th>
@@ -18,7 +18,11 @@
                 </tr>
                 <tr class="sm:table-row flex flex-col sm:border-1 sm:border-b sm:border-gray-200 border-2 border-gray-200 sm:even:bg-gray-50 sm:odd:bg-white bg-gray-50 hover:bg-gray-100 sm:p-0 p-4 sm:rounded-none rounded-md" v-for="(item, index) in productstore.lovedProducts" :key="item._id">
                     <td class="sm:table-cell sm:pl-4 flex flex-row"><span class="sm:hidden block font-bold mr-18">Name :</span>{{ item.title }}</td>
-                    <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Product code :</span>{{ item.code }}</td>
+                    <td class="sm:table-cell flex flex-row">
+                        <div class="flex flex-row">
+                            <div :class="{'w-6 h-6 bg-red-400 rounded-full border-2 border-red-500' : item.emailNotification == false || item.allEmailNotification == false, 'w-6 h-6 bg-green-400 rounded-full border-2 border-green-500' : item.emailNotification == true && item.allEmailNotification == true }"></div>
+                        </div>
+                    </td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-4">Current price :</span>{{ item.defaultPrice }}</td>
                     <td class="sm:table-cell flex flex-row"><span class="sm:hidden block font-bold mr-13">My price :</span>{{ item.myPrice }}</td>
                     <td class="sm:flex sm:flex-row sm:items-center sm:w-fit grid grid-cols-3 w-full gap-2 py-4 pr-2">
