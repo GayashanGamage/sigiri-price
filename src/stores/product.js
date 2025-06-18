@@ -12,7 +12,10 @@ export const productStore = defineStore('productStore', () => {
   const selectedProductIndex = ref(null)
   const lovedProducts = ref(null)
 
+  // ditect changes on lovedProduct list
   const summeryRefresh = ref(false)
+  const chageSettingFreeze = ref(false)
+
 
   const productSummery = () => {
     axios.get(`${import.meta.env.VITE_site}/product/summery`, {
@@ -87,7 +90,7 @@ export const productStore = defineStore('productStore', () => {
   //     },
   // ])
 
-  return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct, summeryRefresh, productSummery }
+  return{ selectedProduct, lovedProducts, selectedProductIndex, productURL, searchProduct, summeryRefresh, productSummery, chageSettingFreeze }
 })
 
 // import { ref, computed, onBeforeMount } from "vue";

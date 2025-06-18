@@ -49,6 +49,7 @@
 <script setup>
 import Passwordreset from '@/components/popups/passwordreset.vue';
 import router from '@/router';
+import { productStore } from '@/stores/product';
 import { siteStore } from '@/stores/sitedata';
 import { userStore } from '@/stores/user';
 import axios from 'axios';
@@ -57,6 +58,7 @@ import { onBeforeMount, ref } from 'vue';
 const userstore = userStore()
 const sitestore = siteStore()
 const skeleton = ref(true)
+const productstore = productStore()
 
 const changeNotificationStatus = () => {
     // console.log(!userstore.personalData.allEmailNotification, typeof(userstore.personalData.allEmailNotification))
@@ -71,6 +73,7 @@ const changeNotificationStatus = () => {
     })
     .then((succuss) => {
         userstore.personalData.allEmailNotification = !userstore.personalData.allEmailNotification
+        productstore.chageSettingFreeze = true // this is indiate to update the product page on 'lovedProduct' tabs
     })
     .catch((error) => {
         console.log(error.status)

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center items-center fixed top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.6)] h-full sm:p-0 p-4" v-if="sitedata.productView">
-        <div class="flex flex-col h-auto gap-8 bg-white rounded-lg p-5 max-w-[400px] min-w-[200px] w-full" ref="productWindow">
+        <div class="flex flex-col h-auto gap-8 bg-white rounded-lg p-5 max-w-[400px] min-w-[200px] w-full overflow-auto" ref="productWindow">
             <!-- heading section -->
             <div class="grid grid-cols-3 gap-2">
                 <button class="border-2 border-[var(--button-select)] px-auto py-1 rounded-sm bg-[var(--button-select)] text-white hover:bg-[var(--button-hover)] hover:text-white hover:border-[var(--button-hover)] active:bg-[var(--button-activate)]" @click="ProductView('product')" id="productTab">Product</button>

@@ -37,7 +37,7 @@ export const userStore = defineStore('userStore', () => {
 
     const removeToken = () => {
         token.value = null
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 
     return { personalData, userData, token, storeToken, restoreToken, removeToken } 

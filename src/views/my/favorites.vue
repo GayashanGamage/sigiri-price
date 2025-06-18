@@ -152,6 +152,9 @@ onBeforeMount(() => {
             return
         }
     }
+    if(productstore.chageSettingFreeze == true){
+        productstore.productSummery()
+    }
 })
 
 </script>
